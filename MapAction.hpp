@@ -1,6 +1,8 @@
 #ifndef MAPACTION_HPP
 #define MAPACTION_HPP
 
+#include "Constants.hpp"
+
 class MapAction {
     private:
         int id;
@@ -8,15 +10,18 @@ class MapAction {
         int y;
         char icon;
         char key;
-        char type;
+        Direction direction;
+        MapActionType type;
     public:
-        MapAction(int, int, int, char, char, char, Direction);
+        // id, x, y, icon, key, type, direction
+        MapAction(int, int, int, char, char,  MapActionType, Direction=NONE);
         int getId();
         int getX();
         int getY();
         char getIcon();
         char getKey();
-        char getType();
+        Direction getDirection();
+        MapActionType getType();
 };
 
 #endif

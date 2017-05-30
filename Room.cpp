@@ -5,9 +5,6 @@ using std::ifstream;
 using std::vector;
 using std::list;
 
-// temp
-using std::cout;
-using std::endl;
 
 void Room::loadLayout(string filename)
 {
@@ -42,12 +39,27 @@ Room::Room(string filename)
 }
 
 
+void Room::removeMapItem(int id)
+{
+    for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
+    {
+        int itemId =  (*it) -> getId();
+        if (itemId == id)
+        {
+            MapItem *item = (*it);
+            mapItems.erase(it);
+            delete item;
+            return;
+        }
+    }
+}
 
 string Room::getRawLayout()
 {
     vector<string> finalMap = layout;
 
-    for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it) {
+    for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
+    {
         int y = (*it) -> getY();
         int x = (*it) -> getX();
         char icon = (*it) -> getIcon();
@@ -79,14 +91,20 @@ void Room::addMapItem(MapItem* item)
     mapItems.push_back(item);
 }
 
-bool Room::isSolidObject(int x, int y)
+bool Room::isOutOfBounds(int x, int y)
 {
-    if (
+    return (
             y < 0 ||
             y >= layout.size() ||
             x < 0 ||
             x >= layout.at(y).length()
-        )
+        );
+}
+
+
+bool Room::isSolidObject(int x, int y)
+{
+    if (isOutOfBounds(x, y))
     {
         return true;
     }

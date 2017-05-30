@@ -29,15 +29,7 @@ void Player::shoot()
             break;
     }
 
-    Missle *m = new Missle(x, y, 'o', actionQueue, direction);
-    actionQueue -> push(new MapAction(
-                    0,
-                    m -> getX(),
-                    m -> getY(),
-                    m -> getIcon(),
-                    '\0',
-                    'a'
-                ));
+    actionQueue -> push(new MapAction( 0, x, y, 'o', '\0', ADD, direction));
 }
 void Player::setDirection(Direction d)
 {
@@ -78,8 +70,9 @@ char Player::getIcon() {
             return 'v';
         case LEFT:
             return '<';
+        default:
+            return '\0';
     }
-    return '\0';
 }
 
 

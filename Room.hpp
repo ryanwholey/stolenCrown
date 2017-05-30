@@ -5,9 +5,6 @@
 #include <fstream>
 #include <vector>
 #include <list>
-//temp
-#include <iostream>
-#include <sstream>
 
 #include "MapItem.hpp"
 
@@ -27,6 +24,7 @@ class Room
         void addMapItem(MapItem*);
         void removeMapItem(int);
         bool isSolidObject(int, int);
+        bool isOutOfBounds(int, int);
 };
 
 #endif
