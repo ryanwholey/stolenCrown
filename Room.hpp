@@ -5,8 +5,11 @@
 #include <fstream>
 #include <vector>
 #include <list>
+#include <queue>
 
 #include "MapItem.hpp"
+#include "MapAction.hpp"
+#include "LockItem.hpp"
 
 class Room
 {
@@ -16,9 +19,10 @@ class Room
 
         void loadLayout(std::string);
         void createLayout(std::string);
-
+        void createItem(int, int, ItemType, std::queue<MapAction*>*);
+        void createMapItems(std::queue<MapAction*>*);
     public:
-        Room(std::string);
+        Room(std::string, std::queue<MapAction*>*);
         std::string getRawLayout();
         MapItem* findMapItem(int);
         MapItem* findMapItemByCoordinates(int, int);

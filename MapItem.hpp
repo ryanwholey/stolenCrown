@@ -30,6 +30,7 @@ class MapItem
         virtual void collide(MapItem*);
         virtual ItemType getType();
         virtual char getIcon();
+        virtual bool isSolid();
 };
 
 #endif

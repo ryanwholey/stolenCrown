@@ -21,9 +21,14 @@ ItemType MapItem::getType()
     return MAPITEM;
 }
 
+bool MapItem::isSolid()
+{
+    return true;
+}
+
 void MapItem::collide(MapItem*)
 {
-    //printw("COLLISION");
+    printw("COLLISION\n");
 }
 
 int MapItem::getX()

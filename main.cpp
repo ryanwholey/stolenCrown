@@ -109,6 +109,12 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
     int x = a -> getX();
     int y = a -> getY();
     MapItem *item = NULL;
+
+    if (r -> isSolidObject(x ,y))
+    {
+        return;
+    }
+
     switch(icon)
     {
         case 'o':
@@ -144,7 +150,7 @@ int main()
     Player *player = new Player(1, 1, '@', q);
     thread (handleKeyPress, q, player).detach();
 
-    Room *r = new Room("rooms/001.txt");
+    Room *r = new Room("rooms/001.txt", q);
     r -> addMapItem(player);
     clear();
 
@@ -185,6 +191,7 @@ int main()
 
     delete r;
     delete player;
+    delete q;
     //t.join();
     system("/bin/stty sane");
 }

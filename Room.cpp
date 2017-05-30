@@ -1,10 +1,19 @@
 #include "Room.hpp"
 
+
 using std::string;
 using std::ifstream;
 using std::vector;
 using std::list;
 
+Room::Room(string filename, queue <MapAction*> *q)
+{
+    loadLayout(filename);
+    if (layout.size())
+    {
+        createMapItems(q);
+    }
+}
 
 void Room::loadLayout(string filename)
 {
@@ -33,9 +42,39 @@ void Room::loadLayout(string filename)
     in.close();
 }
 
-Room::Room(string filename)
+void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
 {
-    loadLayout(filename);
+    MapItem *item = NULL;
+    switch(type)
+    {
+        case LOCK:
+            item = new LockItem(x, y, q);
+            break;
+        default:
+            break;
+    }
+
+    if (item)
+    {
+        addMapItem(item);
+    }
+}
+
+void Room::createMapItems(queue<MapAction*>* q)
+{
+    int rowNum = layout.size();
+    for (int r = 0; r < rowNum; r++)
+    {
+        int colNum = layout.at(r).length();
+        for (int c = 0; c < colNum; c++)
+        {
+            if (layout.at(r).at(c) == 'L')
+            {
+                layout.at(r).at(c) = ' ';
+                createItem(c, r, LOCK, q);
+            }
+        }
+    }
 }
 
 int Room::getNumType(ItemType t)
@@ -124,12 +163,20 @@ bool Room::isSolidObject(int x, int y)
     {
         return true;
     }
+    if (layout.at(y).at(x) == 'X')
+    {
+        return true;
+    }
 
-    return (
-            layout.at(y).at(x) == 'X' ||
-            layout.at(y).at(x) == 'L'
-        );
+    MapItem *item = findMapItemByCoordinates(x, y);
+    if (item)
+    {
+        return item -> isSolid();
+    }
+
+    return false;
 }
+
 MapItem* Room::findMapItemByCoordinates(int x, int y)
 {
     MapItem *item = NULL;
