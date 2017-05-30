@@ -25,6 +25,7 @@ class Missle : public Creature
         static int missleSpeed;
     public:
         Missle(int, int, char, queue<MapAction*>*, Direction, Room*);
+        virtual ItemType getType();
         Direction getDirection();
         void start();
 };

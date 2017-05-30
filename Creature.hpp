@@ -14,6 +14,7 @@ class Creature: public MapItem {
         virtual void goRight();
         virtual void goUp();
         virtual void goDown();
+        virtual ItemType getType();
 };
 
 #endif

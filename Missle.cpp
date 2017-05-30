@@ -11,6 +11,12 @@ Missle::Missle(int _x, int _y, char _icon, queue <MapAction*>*_q, Direction d, R
 
 int Missle::missleSpeed = 100;
 
+
+ItemType Missle::getType()
+{
+    return MISSLE;
+}
+
 Direction Missle::getDirection()
 {
     return direction;

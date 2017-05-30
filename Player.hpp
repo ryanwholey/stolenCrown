@@ -20,6 +20,7 @@ class Player: public Creature
         virtual void goRight();
         void setDirection(Direction);
         virtual char getIcon();
+        virtual ItemType getType();
         void shoot();
 };
 

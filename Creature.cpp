@@ -24,3 +24,7 @@ void Creature::goDown()
      actionQueue -> push(new MapAction(id, getX(), getY() + 1, getIcon(), 'j', MOVE));
 }
 
+ItemType Creature::getType()
+{
+    return CREATURE;
+}

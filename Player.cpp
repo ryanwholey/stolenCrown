@@ -6,6 +6,11 @@ Player::Player(int _x, int _y, char _icon, queue <MapAction*>*_q) : Creature(_x,
     direction = UP;
 }
 
+ItemType Player::getType()
+{
+    return PLAYER;
+}
+
 void Player::shoot()
 {
     int x = getX();

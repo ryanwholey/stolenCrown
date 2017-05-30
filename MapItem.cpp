@@ -1,5 +1,7 @@
 #include "MapItem.hpp"
 
+//temp
+#include <ncurses.h>
 
 MapItem::MapItem(int _x, int _y, char _icon, queue <MapAction*>*_q)
 {
@@ -13,6 +15,16 @@ MapItem::MapItem(int _x, int _y, char _icon, queue <MapAction*>*_q)
 MapItem::~MapItem() {}
 
 int MapItem::count = 0;
+
+ItemType MapItem::getType()
+{
+    return MAPITEM;
+}
+
+void MapItem::collide(MapItem*)
+{
+    //printw("COLLISION");
+}
 
 int MapItem::getX()
 {

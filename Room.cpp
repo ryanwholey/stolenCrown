@@ -38,6 +38,22 @@ Room::Room(string filename)
     loadLayout(filename);
 }
 
+int Room::getNumType(ItemType t)
+{
+    int count = 0;
+
+    for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
+    {
+        ItemType iType = (*it) -> getType();
+
+        if (iType == t)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
 
 void Room::removeMapItem(int id)
 {
@@ -47,7 +63,7 @@ void Room::removeMapItem(int id)
         if (itemId == id)
         {
             MapItem *item = (*it);
-            mapItems.erase(it);
+            mapItems.remove((*it));
             delete item;
             return;
         }
@@ -109,7 +125,28 @@ bool Room::isSolidObject(int x, int y)
         return true;
     }
 
-    return layout.at(y).at(x) == 'X';
+    return (
+            layout.at(y).at(x) == 'X' ||
+            layout.at(y).at(x) == 'L'
+        );
+}
+MapItem* Room::findMapItemByCoordinates(int x, int y)
+{
+    MapItem *item = NULL;
+
+    for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
+    {
+        int itemX = (*it) -> getX();
+        int itemY = (*it) -> getY();
+
+        if (x == itemX && y == itemY)
+        {
+            item = (*it);
+        }
+    }
+
+    return item;
+
 }
 
 MapItem* Room::findMapItem(int id)

@@ -27,6 +27,8 @@ class MapItem
         void setX(int);
         void setY(int);
         int getId();
+        virtual void collide(MapItem*);
+        virtual ItemType getType();
         virtual char getIcon();
 };
 

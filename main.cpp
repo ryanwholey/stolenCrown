@@ -6,6 +6,7 @@
 #include <curses.h>
 #include <fstream>
 
+#include "Constants.hpp"
 #include "Room.hpp"
 #include "MapAction.hpp"
 #include "Creature.hpp"
@@ -24,10 +25,8 @@ void wait(int w = 50)
     std::this_thread::sleep_for(std::chrono::milliseconds(w));
 }
 
-
 void handleKeyPress(queue <MapAction*> *s, Player *player)
 {
-
     char ch = '\0';
     bool done  = false;
     while (!done) {
@@ -52,7 +51,7 @@ void handleKeyPress(queue <MapAction*> *s, Player *player)
                     player -> shoot();
                     break;
                 case 'q':
-                    s -> push(new MapAction(1,2,3,'@', ch, QUIT));
+                    s -> push(new MapAction(1,2,3,'4', ch, QUIT));
                     done = true;
                     break;
                 default:
@@ -63,7 +62,6 @@ void handleKeyPress(queue <MapAction*> *s, Player *player)
     }
 }
 
-
 void initScrean()
 {
     initscr();
@@ -73,12 +71,31 @@ void initScrean()
     nodelay(stdscr, TRUE);
 }
 
-void handleItemMove(MapAction* a, Room* r)
+void handleCollision(MapAction *a, Room *r)
 {
     int x = a -> getX();
     int y = a -> getY();
 
-    if (!r -> isSolidObject(x, y))
+    MapItem *placedItem = r -> findMapItemByCoordinates(x, y);
+
+    if (placedItem)
+    {
+        MapItem *collidingItem = r -> findMapItem(a -> getId());
+        collidingItem -> collide(placedItem);
+    }
+}
+
+void handleItemMove(MapAction *a, Room *r)
+{
+    int x = a -> getX();
+    int y = a -> getY();
+
+    if (!r -> isOutOfBounds(x, y))
+    {
+        handleCollision(a, r);
+    }
+
+    if (!r -> isSolidObject(x, y) && !r -> isOutOfBounds(x, y))
     {
         MapItem *item = r -> findMapItem(a -> getId());
         item -> setX(x);
@@ -96,7 +113,11 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
     {
         case 'o':
         {
-            item = new Missle(x, y, icon, q, a -> getDirection(), r);
+            int numMissles = r -> getNumType(MISSLE);
+            if (numMissles < 2)
+            {
+                item = new Missle(x, y, icon, q, a -> getDirection(), r);
+            }
             break;
         }
         default:
@@ -121,7 +142,7 @@ int main()
 
     initScrean();
     Player *player = new Player(1, 1, '@', q);
-    thread t(handleKeyPress, q, player);
+    thread (handleKeyPress, q, player).detach();
 
     Room *r = new Room("rooms/001.txt");
     r -> addMapItem(player);
@@ -160,12 +181,11 @@ int main()
             printw(r -> getRawLayout().c_str());
             refresh();
         }
-
     }
 
     delete r;
     delete player;
-    t.join();
+    //t.join();
     system("/bin/stty sane");
 }
 

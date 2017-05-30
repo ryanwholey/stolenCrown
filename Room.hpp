@@ -21,10 +21,12 @@ class Room
         Room(std::string);
         std::string getRawLayout();
         MapItem* findMapItem(int);
+        MapItem* findMapItemByCoordinates(int, int);
         void addMapItem(MapItem*);
         void removeMapItem(int);
         bool isSolidObject(int, int);
         bool isOutOfBounds(int, int);
+        int getNumType(ItemType);
 };
 
 #endif
