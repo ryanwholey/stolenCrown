@@ -1,13 +1,16 @@
 CXX = g++
 RM = rm -rf
 CXXFLAGS = -std=c++11 -Wall -g -Wno-sign-compare
-OBJS =  LockItem.o Missle.o Player.o Game.o Creature.o MapItem.o MapAction.o Room.o main.o
+OBJS =  KeyItem.o LockItem.o Missle.o Player.o Game.o Creature.o MapItem.o MapAction.o Room.o main.o
 ZIP = p5.zip
 
 all: p5
 
 p5: ${OBJS}
 	${CXX} ${OBJS} -o _main -lncurses -pthread
+
+KeyItem.o: KeyItem.cpp
+	${CXX} ${CXXFLAGS} -c KeyItem.cpp
 
 LockItem.o: LockItem.cpp
 	${CXX} ${CXXFLAGS} -c LockItem.cpp
@@ -40,7 +43,7 @@ clean:
 	${RM} *o _main *SYM
 
 run:
-	make && ./_main
+	mkdir -p .rooms/ && cp rooms/* .rooms && make && ./_main
 
 zip:
 	zip ${ZIP} *.hpp *.cpp data/* makefile *.pdf rooms/*

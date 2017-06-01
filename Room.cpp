@@ -1,13 +1,20 @@
 #include "Room.hpp"
 
+// temp
+#include <ncurses.h>
+
 
 using std::string;
 using std::ifstream;
 using std::vector;
 using std::list;
+using std::fstream;
+using std::ofstream;
 
 Room::Room(string filename, queue <MapAction*> *q)
 {
+    currentRoom = filename;
+    upRoom = downRoom = leftRoom = rightRoom = "";
     loadLayout(filename);
     if (layout.size())
     {
@@ -15,9 +22,26 @@ Room::Room(string filename, queue <MapAction*> *q)
     }
 }
 
+Room::~Room()
+{
+    // delete items not going to be used in next room
+}
+
+void Room::setVar(string var)
+{
+    int index = var.find('=');
+    string name = var.substr(1, index - 1);
+    string value = "." + var.substr(index+1);
+
+    if (name.compare("UP") == 0)
+    {
+        upRoom = value;
+    }
+}
+
 void Room::loadLayout(string filename)
 {
-    ifstream in;
+    fstream in;
     in.open(filename);
     string tmp, raw = "";
     bool isMap = false;
@@ -37,9 +61,30 @@ void Room::loadLayout(string filename)
         {
             isMap = true;
         }
+        if (tmp.size() && tmp.at(0) == '~')
+        {
+            setVar(tmp);
+        }
     }
 
     in.close();
+}
+
+string Room::getNextRoomFile(Direction d)
+{
+    switch(d)
+    {
+        case UP:
+            return upRoom;
+        case RIGHT:
+            return rightRoom;
+        case DOWN:
+            return downRoom;
+        case LEFT:
+            return leftRoom;
+        default:
+            return "";
+    }
 }
 
 void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
@@ -49,6 +94,9 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
     {
         case LOCK:
             item = new LockItem(x, y, q);
+            break;
+        case KEY:
+            item = new KeyItem(x, y, q);
             break;
         default:
             break;
@@ -72,6 +120,11 @@ void Room::createMapItems(queue<MapAction*>* q)
             {
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, LOCK, q);
+            }
+            else if (layout.at(r).at(c) == 'K')
+            {
+                layout.at(r).at(c) = ' ';
+                createItem(c, r, KEY, q);
             }
         }
     }
@@ -107,6 +160,35 @@ void Room::removeMapItem(int id)
             return;
         }
     }
+}
+
+void Room::saveRoomState()
+{
+    string state = "";
+    state += "<layout>\n";
+    state += getRawLayout();
+    state += "</layout>\n";
+    if (upRoom.compare("") != 0)
+    {
+        state += "~UP="  + upRoom;
+    }
+    if (downRoom.compare("") != 0)
+    {
+         state += "~DOWN="  + downRoom;
+    }
+    if (leftRoom.compare("") != 0)
+    {
+         state += "~LEFT="  + leftRoom;
+    }
+    if (rightRoom.compare("") != 0)
+    {
+         state += "~RIGHT="  + rightRoom;
+    }
+
+    fstream out;
+    out.open(currentRoom, std::fstream::out | std::fstream::trunc);
+    out << state;
+    out.close();
 }
 
 string Room::getRawLayout()

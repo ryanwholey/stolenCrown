@@ -28,7 +28,7 @@ bool MapItem::isSolid()
 
 void MapItem::collide(MapItem*)
 {
-    printw("COLLISION\n");
+    // printw("COLLISION\n");
 }
 
 int MapItem::getX()

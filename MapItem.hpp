@@ -22,6 +22,7 @@ class MapItem
     public:
         MapItem(int, int, char, queue<MapAction*>*);
         virtual ~MapItem();
+
         int getX();
         int getY();
         void setX(int);

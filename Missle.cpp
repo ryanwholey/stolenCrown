@@ -1,3 +1,5 @@
+#include <mutex>
+
 #include "Missle.hpp"
 
 using std::thread;
@@ -54,6 +56,7 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
         if (r -> isSolidObject(x, y) || r -> isOutOfBounds(x, y))
         {
             done = true;
+
             actionQueue -> push(new MapAction(
                         m -> getId(),
                         -1,

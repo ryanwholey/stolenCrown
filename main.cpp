@@ -5,6 +5,7 @@
 #include <string>
 #include <curses.h>
 #include <fstream>
+//#include <mutex>
 
 #include "Constants.hpp"
 #include "Room.hpp"
@@ -85,10 +86,44 @@ void handleCollision(MapAction *a, Room *r)
     }
 }
 
-void handleItemMove(MapAction *a, Room *r)
+bool shouldMoveRoom(MapItem *item, Room *r, int x, int y)
 {
+    if (item -> getType() == PLAYER)
+    {
+        if (r -> isOutOfBounds(x, y))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void handleMoveRoom(MapItem *item, Room *r, queue <MapAction*> *q)
+{
+    r -> saveRoomState();
+
+    Player *p = dynamic_cast<Player*>(item);
+
+    string roomFilename = r -> getNextRoomFile(p -> getDirection());
+
+    printw(roomFilename.c_str());
+
+    delete r;
+
+    r = new Room(roomFilename, q);
+    r -> addMapItem(p);
+}
+
+void handleItemMove(MapAction *a, Room *r, queue <MapAction*> *q)
+{
+    MapItem *item = r -> findMapItem(a -> getId());
     int x = a -> getX();
     int y = a -> getY();
+
+    if (shouldMoveRoom(item, r, x, y))
+    {
+        handleMoveRoom(item, r, q);
+    }
 
     if (!r -> isOutOfBounds(x, y))
     {
@@ -97,7 +132,6 @@ void handleItemMove(MapAction *a, Room *r)
 
     if (!r -> isSolidObject(x, y) && !r -> isOutOfBounds(x, y))
     {
-        MapItem *item = r -> findMapItem(a -> getId());
         item -> setX(x);
         item -> setY(y);
     }
@@ -145,23 +179,27 @@ void handleKillItem(MapAction* a, Room *r)
 int main()
 {
     queue <MapAction*> *q = new queue<MapAction*>();
+//    std::mutex *mtx = new std::mutex();
+//    mtx -> lock();
+//    mtx -> unlock();
 
     initScrean();
-    Player *player = new Player(1, 1, '@', q);
+    Player *player = new Player(13, 8, '\0', q);
     thread (handleKeyPress, q, player).detach();
 
-    Room *r = new Room("rooms/001.txt", q);
+    Room *r = new Room(".rooms/001.txt", q);
     r -> addMapItem(player);
-    clear();
+    //clear();
 
     printw(r -> getRawLayout().c_str());
+    printw(player -> getInventoryString().c_str());
 
     bool done = false;
     while(!done)
     {
         while (!q -> empty())
         {
-            clear();
+            //clear();
             MapAction *a = q -> front();
 
             switch (a -> getType())
@@ -170,7 +208,7 @@ int main()
                     done = true;
                     break;
                 case MOVE:
-                    handleItemMove(a, r);
+                    handleItemMove(a, r, q);
                     break;
                 case ADD:
                     handleAddItem(a, r, q);
@@ -185,6 +223,8 @@ int main()
             delete a;
 
             printw(r -> getRawLayout().c_str());
+            printw(player -> getInventoryString().c_str());
+
             refresh();
         }
     }
