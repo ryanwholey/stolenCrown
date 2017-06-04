@@ -12,6 +12,7 @@
 #include "MapAction.hpp"
 #include "LockItem.hpp"
 #include "KeyItem.hpp"
+#include "GunItem.hpp"
 
 class Room
 {

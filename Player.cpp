@@ -72,6 +72,16 @@ void Player::collide(MapItem* obstacle)
                         KILL
                     ));
             break;
+        case GUN:
+            addToInventory(GUN);
+            actionQueue -> push(new MapAction(
+                        obstacle -> getId(),
+                        obstacle -> getX(),
+                        obstacle -> getY(),
+                        obstacle -> getIcon(),
+                        '\0',
+                        KILL
+                    ));
         default:
             printw("collision\n");
     }
@@ -93,6 +103,9 @@ string Player::getInventoryString()
         {
             case KEY:
                 str += "key";
+                break;
+            case GUN:
+                str += "gun";
                 break;
             default:
                 break;
