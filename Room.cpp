@@ -2,6 +2,7 @@
 
 // temp
 #include <ncurses.h>
+#include "Player.hpp"
 
 
 using std::string;
@@ -13,13 +14,106 @@ using std::ofstream;
 
 Room::Room(string filename, queue <MapAction*> *q)
 {
+    init(filename, q);
+}
+
+void Room::init(string filename, queue <MapAction*> *q)
+{
     currentRoom = filename;
-    upRoom = downRoom = leftRoom = rightRoom = "";
+
+    while (mapItems.size() > 1)
+    {
+
+        std::list<MapItem*>::iterator it;
+        bool didRemove = false;
+        for (it = mapItems.begin(); it != mapItems.end(); ++it)
+        {
+            switch((*it) -> getType())
+            {
+                case PLAYER:
+                    break;
+                default:
+                {
+                    MapItem *item = (*it);
+                    mapItems.remove((*it));
+                    delete item;
+                    didRemove = true;
+                    break;
+                }
+            }
+            if (didRemove)
+                break;
+
+        }
+    }
+
+    clearVars();
+    layout.clear();
     loadLayout(filename);
     if (layout.size())
     {
         createMapItems(q);
     }
+}
+
+
+void Room::clearVars()
+{
+    upRoom = downRoom = leftRoom = rightRoom = "";
+}
+
+void Room::setNextRoomPosition(MapItem* item)
+{
+    Player *player = dynamic_cast<Player*>(item);
+
+    switch(player -> getDirection())
+    {
+        case UP:
+        {
+            int lastRow = layout.size() -1;
+            player -> setY(lastRow);
+            player -> setX(layout.at(lastRow).find('_'));
+            break;
+        }
+        case DOWN:
+        {
+            player -> setY(0);
+            player -> setX(layout.at(0).find('_'));
+            break;
+        }
+        case RIGHT:
+        {
+            player -> setX(0);
+            int size = layout.size();
+            for (int i = 0; i < size; i++)
+            {
+                if (layout.at(i).at(0) == '_')
+                {
+                    player -> setY(i);
+                    break;
+                }
+            }
+            break;
+        }
+        case LEFT:
+        {
+            for (int i = 0; i < layout.size(); i++)
+            {
+                if (layout.at(i).at(layout.at(i).length() -1) == '_')
+                {
+                    player -> setY(i);
+                    player -> setX(layout.at(i).length() - 1);
+                    break;
+                }
+            }
+            break;
+        }
+        default:
+        {
+            printw("oh nos!") ;
+        }
+    }
+
 }
 
 Room::~Room()
@@ -37,6 +131,23 @@ void Room::setVar(string var)
     {
         upRoom = value;
     }
+    else if (name.compare("RIGHT") == 0)
+    {
+        rightRoom = value;
+    }
+    else if (name.compare("DOWN") == 0)
+    {
+        downRoom = value;
+    }
+    else if (name.compare("LEFT") == 0)
+    {
+        leftRoom = value;
+    }
+}
+
+void Room::changeTile(int x, int y, char icon)
+{
+    layout.at(y).at(x) = icon;
 }
 
 void Room::loadLayout(string filename)
@@ -162,27 +273,54 @@ void Room::removeMapItem(int id)
     }
 }
 
+string Room::removeDot(string filename)
+{
+    if(filename.length() > 0)
+    {
+        if (filename.at(0) == '.')
+        {
+            return filename.substr(1);
+        }
+    }
+    return filename;
+}
+
 void Room::saveRoomState()
 {
     string state = "";
+    string rawLayout =  getRawLayout();
+    for (int i = 0; i < rawLayout.length(); i++)
+    {
+        if (
+                rawLayout.at(i) == '<' ||
+                rawLayout.at(i) == 'v' ||
+                rawLayout.at(i) == '>' ||
+                rawLayout.at(i) == '^'
+           )
+        {
+            rawLayout.at(i) = '_';
+            break;
+        }
+    }
     state += "<layout>\n";
-    state += getRawLayout();
+    state += rawLayout;
     state += "</layout>\n";
     if (upRoom.compare("") != 0)
     {
-        state += "~UP="  + upRoom;
+        state += "~UP="  + removeDot(upRoom) + "\n";
     }
     if (downRoom.compare("") != 0)
     {
-         state += "~DOWN="  + downRoom;
+         state += "~DOWN="  + removeDot(downRoom) + "\n";
+
     }
     if (leftRoom.compare("") != 0)
     {
-         state += "~LEFT="  + leftRoom;
+         state += "~LEFT="  + removeDot(leftRoom) + "\n";
     }
     if (rightRoom.compare("") != 0)
     {
-         state += "~RIGHT="  + rightRoom;
+         state += "~RIGHT="  + removeDot(rightRoom) + "\n";
     }
 
     fstream out;
@@ -281,7 +419,6 @@ MapItem* Room::findMapItemByCoordinates(int x, int y)
 MapItem* Room::findMapItem(int id)
 {
     MapItem *item = NULL;
-
     for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
     {
         int itemId = (*it) -> getId();

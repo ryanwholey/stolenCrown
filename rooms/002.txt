@@ -1,6 +1,6 @@
 <layout>
 XXXXXXXXXXXXXXXXXXXXXXXXX
-X     X                 X
+X G   X                 X
 X     X                 X
 X     X                 X
 X     X    X      X     X
@@ -10,7 +10,6 @@ X          X      X     X
 X          X      X     X
 XXXXXXXXXXXXX_XXXXXXXXXXX
 </layout>
-
-~DOWN="rooms/002.txt"
+~DOWN=rooms/001.txt
 
 

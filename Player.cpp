@@ -97,7 +97,8 @@ string Player::getInventoryString()
             default:
                 break;
         }
-        if (i + 1 < size){
+        if (i + 1 < size)
+        {
             str += ", " ;
         }
     }

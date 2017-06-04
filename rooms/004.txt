@@ -1,0 +1,13 @@
+<layout>
+XXXXXXXXXXXXXXXXXXXXXXXXX
+X                       X
+X                       X
+X                       X
+X                       _
+X            X          X
+X            X          X
+X           X           X
+X                       X
+XXXXXXXXXXXXXXXXXXXXXXXXX
+</layout>
+~RIGHT=rooms/003.txt

@@ -90,6 +90,7 @@ bool shouldMoveRoom(MapItem *item, Room *r, int x, int y)
 {
     if (item -> getType() == PLAYER)
     {
+        // not perfect
         if (r -> isOutOfBounds(x, y))
         {
             return true;
@@ -100,23 +101,20 @@ bool shouldMoveRoom(MapItem *item, Room *r, int x, int y)
 
 void handleMoveRoom(MapItem *item, Room *r, queue <MapAction*> *q)
 {
-    r -> saveRoomState();
-
     Player *p = dynamic_cast<Player*>(item);
+    r -> saveRoomState();
+    Direction d = p -> getDirection();
 
-    string roomFilename = r -> getNextRoomFile(p -> getDirection());
+    string roomFilename = r -> getNextRoomFile(d);
 
-    printw(roomFilename.c_str());
-
-    delete r;
-
-    r = new Room(roomFilename, q);
-    r -> addMapItem(p);
+    r -> init(roomFilename, q);
+    r -> setNextRoomPosition(p);
 }
 
 void handleItemMove(MapAction *a, Room *r, queue <MapAction*> *q)
 {
     MapItem *item = r -> findMapItem(a -> getId());
+
     int x = a -> getX();
     int y = a -> getY();
 
@@ -124,17 +122,19 @@ void handleItemMove(MapAction *a, Room *r, queue <MapAction*> *q)
     {
         handleMoveRoom(item, r, q);
     }
+    else {
+        if (!r -> isOutOfBounds(x, y))
+        {
+            handleCollision(a, r);
+        }
 
-    if (!r -> isOutOfBounds(x, y))
-    {
-        handleCollision(a, r);
+        if (!r -> isSolidObject(x, y) && !r -> isOutOfBounds(x, y))
+        {
+            item -> setX(x);
+            item -> setY(y);
+        }
     }
 
-    if (!r -> isSolidObject(x, y) && !r -> isOutOfBounds(x, y))
-    {
-        item -> setX(x);
-        item -> setY(y);
-    }
 }
 
 void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
@@ -189,7 +189,7 @@ int main()
 
     Room *r = new Room(".rooms/001.txt", q);
     r -> addMapItem(player);
-    //clear();
+    clear();
 
     printw(r -> getRawLayout().c_str());
     printw(player -> getInventoryString().c_str());
@@ -199,7 +199,7 @@ int main()
     {
         while (!q -> empty())
         {
-            //clear();
+            clear();
             MapAction *a = q -> front();
 
             switch (a -> getType())

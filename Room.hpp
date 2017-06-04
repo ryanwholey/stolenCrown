@@ -25,10 +25,15 @@ class Room
         void createItem(int, int, ItemType, std::queue<MapAction*>*);
         void createMapItems(std::queue<MapAction*>*);
         void setVar(std::string);
+        void clearVars();
+        std::string removeDot(std::string);
     public:
         Room(std::string, std::queue<MapAction*>*);
         ~Room();
+        void init(std::string, std::queue<MapAction*>*);
         void saveRoomState();
+        void setNextRoomPosition(MapItem*);
+        void changeTile(int, int, char);
         std::string getRawLayout();
         MapItem* findMapItem(int);
         MapItem* findMapItemByCoordinates(int, int);
