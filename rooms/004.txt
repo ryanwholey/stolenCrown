@@ -1,13 +1,16 @@
 <layout>
 XXXXXXXXXXXXXXXXXXXXXXXXX
-X                       X
-X                       X
-X                       X
-X                       _
-X            X          X
-X            X          X
-X           X           X
-X                       X
+X         #             X
+X         #             X
+X         #             X
+X         #             _
+@         #             X
+X         #             X
+X         #             X
+X         #             X
 XXXXXXXXXXXXXXXXXXXXXXXXX
 </layout>
 ~RIGHT=rooms/003.txt
+~DOWN=rooms/005.txt
+~@0,5:CHANGE,DOOR,13,9
+

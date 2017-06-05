@@ -1,0 +1,14 @@
+<layout>
+XXXXXXXXXXXXX_XXXXXXXXXXX
+X                       X
+X                       X
+X                       X
+X         # #           X
+X    #           #      X
+X     #         #       X
+X       # # # #         X
+X                       X
+XXXXXXXXXXXXXXXXXXXXXXXXX
+</layout>
+~UP=rooms/004.txt
+
