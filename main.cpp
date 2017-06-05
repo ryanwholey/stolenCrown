@@ -178,7 +178,7 @@ void handleKillItem(MapAction* a, Room *r)
 
 int main()
 {
-    bool debug = true;
+    bool debug = false;
     queue <MapAction*> *q = new queue<MapAction*>();
 //    std::mutex *mtx = new std::mutex();
 //    mtx -> lock();

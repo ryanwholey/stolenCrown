@@ -3,9 +3,11 @@
 #include "Missle.hpp"
 
 using std::thread;
+using std::string;
 
 
 Missle::Missle(int _x, int _y, char _icon, queue <MapAction*>*_q, Direction d, Room *r) : Creature(_x, _y, _icon, _q) {
+    roomName = r -> getCurrentRoom();
     direction = d;
     room = r;
     start();
@@ -72,6 +74,14 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
                 break;
         }
 
+        // if moved rooms, move missle off board for garbage collection
+        if (m -> roomName.compare(r -> getCurrentRoom()) > 0)
+        {
+            x = -1;
+            y = -1;
+        }
+
+
         actionQueue-> push(new MapAction(
                     m -> getId(),
                     x,
@@ -95,7 +105,7 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
                     ));
         }
      }
- }
+}
 
 void Missle::start()
 {

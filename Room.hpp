@@ -35,6 +35,7 @@ class Room
         ~Room();
         void init(std::string, std::queue<MapAction*>*);
         void saveRoomState();
+        std::string getCurrentRoom();
         void setNextRoomPosition(MapItem*);
         void changeTile(int, int, char);
         std::string getRawLayout();

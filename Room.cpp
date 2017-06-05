@@ -17,6 +17,10 @@ Room::Room(string filename, queue <MapAction*> *q)
     init(filename, q);
 }
 
+Room::~Room()
+{
+    // delete items not going to be used in next room
+}
 
 bool Room::isRoomClean()
 {
@@ -138,13 +142,13 @@ void Room::setNextRoomPosition(MapItem* item)
             printw("oh nos!") ;
         }
     }
-
 }
 
-Room::~Room()
+string Room::getCurrentRoom()
 {
-    // delete items not going to be used in next room
+    return currentRoom;
 }
+
 
 void Room::setVar(string var)
 {
@@ -341,6 +345,10 @@ void Room::saveRoomState()
         {
             rawLayout.at(i) = '_';
             break;
+        }
+        else if (rawLayout.at(i) == 'o')
+        {
+            rawLayout.at(i) = ' ';
         }
     }
     state += "<layout>\n";

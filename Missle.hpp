@@ -23,6 +23,7 @@ class Missle : public Creature
         Room *room;
         static void moveForward(Missle*, queue<MapAction*>*, Room*);
         static int missleSpeed;
+        std::string roomName;
     public:
         Missle(int, int, char, queue<MapAction*>*, Direction, Room*);
         virtual ItemType getType();
