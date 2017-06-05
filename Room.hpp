@@ -3,6 +3,7 @@
 
 #include <string>
 #include <fstream>
+#include <stack>
 #include <vector>
 #include <list>
 #include <queue>
@@ -16,6 +17,7 @@
 #include "BlockItem.hpp"
 #include "FenceItem.hpp"
 #include "AngleItem.hpp"
+#include "TargetItem.hpp"
 
 class Room
 {
@@ -23,6 +25,7 @@ class Room
         std::list <MapItem*> mapItems;
         std::vector<std::string> layout;
         std::string currentRoom, upRoom, downRoom, leftRoom, rightRoom;
+        std::stack <std::string> rawReactions;
 
         bool isRoomClean();
         void loadLayout(std::string);
@@ -30,6 +33,8 @@ class Room
         void createItem(int, int, ItemType, std::queue<MapAction*>*);
         void createMapItems(std::queue<MapAction*>*);
         void setVar(std::string);
+        void setReaction(std::string);
+        void setReactions();
         void clearVars();
         std::string removeDot(std::string);
     public:

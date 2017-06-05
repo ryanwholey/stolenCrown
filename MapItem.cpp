@@ -10,9 +10,17 @@ MapItem::MapItem(int _x, int _y, char _icon, queue <MapAction*>*_q)
     actionQueue= _q;
     x = _x;
     y = _y;
+    reaction = NULL;
 }
 
-MapItem::~MapItem() {}
+MapItem::~MapItem() {
+
+    if (reaction)
+    {
+        delete reaction;
+        reaction = NULL;
+    }
+}
 
 int MapItem::count = 0;
 
@@ -24,6 +32,17 @@ ItemType MapItem::getType()
 bool MapItem::isSolid(MapItem* traveler)
 {
     return true;
+}
+
+
+void MapItem::setReaction(MapAction* action)
+{
+    reaction = action;
+}
+
+MapAction* MapItem::getReaction()
+{
+    return reaction;
 }
 
 void MapItem::collide(MapItem*)

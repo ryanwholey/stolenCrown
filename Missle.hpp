@@ -29,6 +29,7 @@ class Missle : public Creature
         virtual ItemType getType();
         virtual void collide(MapItem*);
         Direction getDirection();
+        void setDirection(Direction);
         void start();
 };
 

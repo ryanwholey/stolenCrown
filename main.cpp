@@ -152,26 +152,54 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
             {
                 item = new Missle(x, y, icon, q, a -> getDirection(), r);
                 Missle *m = dynamic_cast<Missle*>(item);
-                if (!r -> isSolidObject(x, y, item))
+                MapItem *obstacle = r -> findMapItemByCoordinates(x, y);
+
+                bool isAngle = (obstacle && (
+                        obstacle -> getType() == ANGLE_FORWARD ||
+                        obstacle -> getType() == ANGLE_BACKWARD
+                        ));
+
+                if (!r -> isSolidObject(x, y, item) && !isAngle)
                 {
                     m -> start();
                     r -> addMapItem(m);
                 }
                 else
                 {
-                    MapItem *obstacle = r -> findMapItemByCoordinates(x, y);
                     if (obstacle)
                     {
-                        m -> collide(obstacle);
+                        switch(obstacle -> getType())
+                        {
+                            case ANGLE_FORWARD:
+                            case ANGLE_BACKWARD:
+                                m -> collide(obstacle);
+                                m -> start();
+                                r -> addMapItem(m);
+                                break;
+                            default:
+                                m -> collide(obstacle);
+                                delete m;
+                                break;
+                        }
                     }
-                    delete m;
                 }
             }
+            break;
+        }
+        case 'K':
+        {
+            item = new KeyItem(a -> getX(), a -> getY(), q);
+            r -> addMapItem(item);
             break;
         }
         default:
             break;
     }
+}
+
+void handleChangeSpace(MapAction* a, Room *r)
+{
+    r -> changeTile(a -> getX(), a -> getY(), a -> getIcon());
 }
 
 void handleKillItem(MapAction* a, Room *r)
@@ -222,6 +250,10 @@ int main()
                     break;
                 case KILL:
                     handleKillItem(a, r);
+                    break;
+                case CHANGE:
+                    handleChangeSpace(a, r);
+                    break;
                 default:
                     break;
             }

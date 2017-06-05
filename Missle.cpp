@@ -25,6 +25,11 @@ Direction Missle::getDirection()
     return direction;
 }
 
+void Missle::setDirection(Direction d)
+{
+    direction = d;
+}
+
 void Missle::collide(MapItem *obstacle)
 {
     switch(obstacle -> getType())
@@ -39,6 +44,58 @@ void Missle::collide(MapItem *obstacle)
                         '\0',
                         KILL
                     ));
+        }
+        case ANGLE_FORWARD:
+        {
+            switch(direction)
+            {
+                case UP:
+                    setDirection(RIGHT);
+                    break;
+                case RIGHT:
+                    setDirection(UP);
+                    break;
+                case DOWN:
+                    setDirection(LEFT);
+                    break;
+                case LEFT:
+                    setDirection(DOWN);
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+        case ANGLE_BACKWARD:
+        {
+             switch(direction)
+            {
+                case UP:
+                    setDirection(LEFT);
+                    break;
+                case RIGHT:
+                    setDirection(DOWN);
+                    break;
+                case DOWN:
+                    setDirection(RIGHT);
+                    break;
+                case LEFT:
+                    setDirection(UP);
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+        case TARGET:
+        {
+            MapAction *action = obstacle -> getReaction();
+            obstacle -> setReaction(NULL);
+            if (action)
+            {
+                actionQueue-> push(action);
+            }
+            break;
         }
         default:
             break;
@@ -55,6 +112,8 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
         std::this_thread::sleep_for(std::chrono::milliseconds(Missle::missleSpeed));
         x = m -> getX();
         y = m -> getY();
+
+
         switch(m -> getDirection())
         {
             case UP:

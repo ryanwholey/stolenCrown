@@ -82,6 +82,16 @@ void Room::init(string filename, queue <MapAction*> *q)
     if (layout.size())
     {
         createMapItems(q);
+        setReactions();
+    }
+}
+
+void Room::setReactions()
+{
+    while(!rawReactions.empty())
+    {
+        setReaction(rawReactions.top());
+        rawReactions.pop();
     }
 }
 
@@ -149,6 +159,17 @@ string Room::getCurrentRoom()
     return currentRoom;
 }
 
+void Room::changeTile(int x, int y, char icon)
+{
+    if (y < layout.size() && y >= 0)
+    {
+        if (x < layout.at(y).length() & x >= 0)
+        {
+            layout.at(y).at(x) = icon;
+        }
+    }
+}
+
 
 void Room::setVar(string var)
 {
@@ -200,11 +221,94 @@ void Room::loadLayout(string filename)
         }
         if (tmp.size() && tmp.at(0) == '~')
         {
-            setVar(tmp);
+            if (tmp.at(1) == '@')
+            {
+                rawReactions.push(tmp);
+            }
+            else
+            {
+                setVar(tmp);
+            }
         }
     }
 
     in.close();
+}
+
+void Room::setReaction(string reactionStr)
+{
+    string tmp = reactionStr.substr(2);
+
+    // get x
+    int x = stoi(tmp.substr(0, tmp.find(',')));
+    tmp = tmp.substr(tmp.find(',') + 1);
+
+    // get y
+    int y = stoi(tmp.substr(0, tmp.find(':')));
+    tmp = tmp.substr(tmp.find(':') + 1);
+
+    // see if item exists at coords
+    MapItem *item = findMapItemByCoordinates(x, y);
+    if (!item)
+    {
+        return;
+    }
+
+    // get action type
+    string type = tmp.substr(0, tmp.find(','));
+    MapActionType actionType = NOOP;
+
+    if (type.compare("ADD") == 0)
+    {
+        actionType = ADD;
+    }
+    else if (type.compare("CHANGE") == 0)
+    {
+        actionType = CHANGE;
+    }
+    else if (type.compare("KILL") == 0)
+    {
+        actionType = KILL;
+    }
+    tmp = tmp.substr(tmp.find(',') + 1);
+
+    // get reaction item type
+    type = tmp.substr(0, tmp.find(','));
+    ItemType itemType = MAPITEM;
+    char itemIcon = '\0';
+    if (type.compare("KEY") == 0)
+    {
+        itemType = KEY;
+        itemIcon = 'K';
+    }
+    else if (type.compare("DOOR") == 0)
+    {
+        itemType = DOOR;
+        itemIcon = '_';
+    }
+    tmp = tmp.substr(tmp.find(',') + 1);
+
+    // get reaction x
+    x = stoi(tmp.substr(0, tmp.find(',')));
+    tmp = tmp.substr(tmp.find(',') + 1);
+
+    // get reaction y
+    y = stoi(tmp);
+
+
+//    printw("X: ");
+//    printw(std::to_string(x).c_str());
+//    printw("\n");
+//    printw("Y: ");
+//    printw(std::to_string(y).c_str());
+//    printw("\n");
+
+
+    if (actionType != NOOP && itemType != MAPITEM && itemIcon != '\0')
+    {
+        MapAction *action = new MapAction(-1, x, y, itemIcon, '\0', actionType, NONE);
+        item -> setReaction(action);
+    }
 }
 
 string Room::getNextRoomFile(Direction d)
@@ -249,6 +353,9 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
             break;
         case ANGLE_BACKWARD:
             item = new AngleItem(x, y, '\\', q);
+            break;
+        case TARGET:
+            item = new TargetItem(x, y, q);
             break;
         default:
             break;
@@ -305,6 +412,11 @@ void Room::createMapItems(queue<MapAction*>* q)
                 {
                     createItem(c, r, ANGLE_BACKWARD, q);
                 }
+            }
+            else if (layout.at(r).at(c) == '@')
+            {
+                layout.at(r).at(c) = ' ';
+                createItem(c, r, TARGET, q);
             }
         }
     }

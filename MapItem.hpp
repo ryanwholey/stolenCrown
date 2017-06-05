@@ -16,6 +16,7 @@ class MapItem
         int x;
         int y;
         char icon;
+        MapAction* reaction;
     protected:
         int id;
         queue <MapAction*> *actionQueue;
@@ -28,6 +29,8 @@ class MapItem
         void setX(int);
         void setY(int);
         int getId();
+        void setReaction(MapAction*);
+        MapAction* getReaction();
         virtual void collide(MapItem*);
         virtual ItemType getType();
         virtual char getIcon();

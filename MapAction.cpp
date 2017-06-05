@@ -10,6 +10,7 @@ MapAction::MapAction(int _id, int _x, int _y, char _icon, char _key, MapActionTy
     direction = _d;
 }
 
+
 char MapAction::getKey()
 {
     return key;
