@@ -10,6 +10,7 @@ class AngleItem: public MapItem
     public:
         AngleItem(int, int, char, std::queue<MapAction*>*);
         virtual ItemType getType();
+        virtual bool isSolid(MapItem*);
 };
 
 #endif

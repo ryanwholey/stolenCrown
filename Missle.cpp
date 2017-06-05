@@ -10,7 +10,6 @@ Missle::Missle(int _x, int _y, char _icon, queue <MapAction*>*_q, Direction d, R
     roomName = r -> getCurrentRoom();
     direction = d;
     room = r;
-    start();
 }
 
 int Missle::missleSpeed = 100;

@@ -134,7 +134,6 @@ void handleItemMove(MapAction *a, Room *r, queue <MapAction*> *q)
             item -> setY(y);
         }
     }
-
 }
 
 void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
@@ -152,23 +151,26 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
             if (numMissles < 1)
             {
                 item = new Missle(x, y, icon, q, a -> getDirection(), r);
+                Missle *m = dynamic_cast<Missle*>(item);
+                if (!r -> isSolidObject(x, y, item))
+                {
+                    m -> start();
+                    r -> addMapItem(m);
+                }
+                else
+                {
+                    MapItem *obstacle = r -> findMapItemByCoordinates(x, y);
+                    if (obstacle)
+                    {
+                        m -> collide(obstacle);
+                    }
+                    delete m;
+                }
             }
             break;
         }
         default:
             break;
-    }
-
-    if (item)
-    {
-        if (!r -> isSolidObject(x, y, item))
-        {
-            r -> addMapItem(item);
-        }
-        else
-        {
-            delete item;
-        }
     }
 }
 
