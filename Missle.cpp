@@ -91,7 +91,7 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
                     MOVE
                 ));
 
-        if (r -> isSolidObject(x, y) || r -> isOutOfBounds(x, y))
+        if (r -> isSolidObject(x, y, m) || r -> isOutOfBounds(x, y))
         {
             done = true;
 

@@ -10,7 +10,6 @@ class BlockItem: public MapItem
     public:
         BlockItem(int, int, std::queue<MapAction*>*);
         virtual ItemType getType();
-        virtual bool isSolid();
 };
 
 #endif

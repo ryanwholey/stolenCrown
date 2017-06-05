@@ -243,6 +243,10 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
             break;
         case BLOCK:
             item = new BlockItem(x, y, q);
+            break;
+        case FENCE:
+            item = new FenceItem(x, y, q);
+            break;
         default:
             break;
     }
@@ -281,7 +285,11 @@ void Room::createMapItems(queue<MapAction*>* q)
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, BLOCK, q);
             }
-
+            else if (layout.at(r).at(c) == '#')
+            {
+                layout.at(r).at(c) = ' ';
+                createItem(c, r, FENCE, q);
+            }
         }
     }
 }
@@ -426,7 +434,7 @@ bool Room::isOutOfBounds(int x, int y)
 }
 
 
-bool Room::isSolidObject(int x, int y)
+bool Room::isSolidObject(int x, int y, MapItem* traveler = NULL)
 {
     if (isOutOfBounds(x, y))
     {
@@ -440,7 +448,7 @@ bool Room::isSolidObject(int x, int y)
     MapItem *item = findMapItemByCoordinates(x, y);
     if (item)
     {
-        return item -> isSolid();
+        return item -> isSolid(traveler);
     }
 
     return false;

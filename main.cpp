@@ -128,7 +128,7 @@ void handleItemMove(MapAction *a, Room *r, queue <MapAction*> *q)
             handleCollision(a, r);
         }
 
-        if (!r -> isSolidObject(x, y) && !r -> isOutOfBounds(x, y))
+        if (!r -> isSolidObject(x, y, item) && !r -> isOutOfBounds(x, y))
         {
             item -> setX(x);
             item -> setY(y);
@@ -143,11 +143,6 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
     int x = a -> getX();
     int y = a -> getY();
     MapItem *item = NULL;
-
-    if (r -> isSolidObject(x ,y))
-    {
-        return;
-    }
 
     switch(icon)
     {
@@ -166,7 +161,14 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
 
     if (item)
     {
-        r -> addMapItem(item);
+        if (!r -> isSolidObject(x, y, item))
+        {
+            r -> addMapItem(item);
+        }
+        else
+        {
+            delete item;
+        }
     }
 }
 

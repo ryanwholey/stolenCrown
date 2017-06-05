@@ -21,7 +21,7 @@ ItemType MapItem::getType()
     return MAPITEM;
 }
 
-bool MapItem::isSolid()
+bool MapItem::isSolid(MapItem* traveler)
 {
     return true;
 }

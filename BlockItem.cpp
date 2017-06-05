@@ -7,8 +7,4 @@ ItemType BlockItem::getType()
     return BLOCK;
 }
 
-bool BlockItem::isSolid()
-{
-    return true;
-}
 

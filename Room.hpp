@@ -14,6 +14,7 @@
 #include "KeyItem.hpp"
 #include "GunItem.hpp"
 #include "BlockItem.hpp"
+#include "FenceItem.hpp"
 
 class Room
 {
@@ -43,7 +44,7 @@ class Room
         MapItem* findMapItemByCoordinates(int, int);
         void addMapItem(MapItem*);
         void removeMapItem(int);
-        bool isSolidObject(int, int);
+        bool isSolidObject(int, int, MapItem*);
         bool isOutOfBounds(int, int);
         int getNumType(ItemType);
         std::string getNextRoomFile(Direction);
