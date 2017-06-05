@@ -124,10 +124,10 @@ string Player::getInventoryString()
 void Player::shoot()
 {
 
-    if (!hasItemInInventory(GUN))
-    {
-        return;
-    }
+//    if (!hasItemInInventory(GUN))
+//    {
+//        return;
+//    }
     int x = getX();
     int y = getY();
 

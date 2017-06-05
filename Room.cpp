@@ -17,20 +17,45 @@ Room::Room(string filename, queue <MapAction*> *q)
     init(filename, q);
 }
 
+
+bool Room::isRoomClean()
+{
+    bool isClean = true;
+    std::list<MapItem*>::iterator it;
+    for (it = mapItems.begin(); it != mapItems.end(); ++it)
+    {
+        switch ((*it) -> getType())
+        {
+            case PLAYER:
+            case MISSLE:
+                break;
+            default:
+                isClean = false;
+        }
+        if (!isClean)
+        {
+            return false;
+        }
+    }
+
+    return isClean;
+}
+
 void Room::init(string filename, queue <MapAction*> *q)
 {
     currentRoom = filename;
 
-    while (mapItems.size() > 1)
+    while (!isRoomClean())
     {
 
-        std::list<MapItem*>::iterator it;
         bool didRemove = false;
+        std::list<MapItem*>::iterator it;
         for (it = mapItems.begin(); it != mapItems.end(); ++it)
         {
             switch((*it) -> getType())
             {
                 case PLAYER:
+                case MISSLE:
                     break;
                 default:
                 {

@@ -22,6 +22,7 @@ class Room
         std::vector<std::string> layout;
         std::string currentRoom, upRoom, downRoom, leftRoom, rightRoom;
 
+        bool isRoomClean();
         void loadLayout(std::string);
         void createLayout(std::string);
         void createItem(int, int, ItemType, std::queue<MapAction*>*);
