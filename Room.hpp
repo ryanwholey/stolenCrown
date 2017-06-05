@@ -13,6 +13,7 @@
 #include "LockItem.hpp"
 #include "KeyItem.hpp"
 #include "GunItem.hpp"
+#include "BlockItem.hpp"
 
 class Room
 {

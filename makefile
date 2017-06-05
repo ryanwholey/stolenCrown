@@ -1,13 +1,16 @@
 CXX = g++
 RM = rm -rf
 CXXFLAGS = -std=c++11 -Wall -g -Wno-sign-compare
-OBJS =  GunItem.o KeyItem.o LockItem.o Missle.o Player.o Game.o Creature.o MapItem.o MapAction.o Room.o main.o
+OBJS =  BlockItem.o GunItem.o KeyItem.o LockItem.o Missle.o Player.o Game.o Creature.o MapItem.o MapAction.o Room.o main.o
 ZIP = p5.zip
 
 all: p5
 
 p5: ${OBJS}
 	${CXX} ${OBJS} -o _main -lncurses -pthread
+
+BlockItem.o: BlockItem.cpp
+	${CXX} ${CXXFLAGS} -c BlockItem.cpp
 
 GunItem.o: GunItem.cpp
 	${CXX} ${CXXFLAGS} -c GunItem.cpp

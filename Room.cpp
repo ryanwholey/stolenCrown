@@ -212,6 +212,8 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
         case GUN:
             item = new GunItem(x, y, q);
             break;
+        case BLOCK:
+            item = new BlockItem(x, y, q);
         default:
             break;
     }
@@ -245,6 +247,12 @@ void Room::createMapItems(queue<MapAction*>* q)
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, GUN, q);
             }
+            else if (layout.at(r).at(c) == 'B')
+            {
+                layout.at(r).at(c) = ' ';
+                createItem(c, r, BLOCK, q);
+            }
+
         }
     }
 }

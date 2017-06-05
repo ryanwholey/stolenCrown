@@ -154,7 +154,7 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
         case 'o':
         {
             int numMissles = r -> getNumType(MISSLE);
-            if (numMissles < 2)
+            if (numMissles < 1)
             {
                 item = new Missle(x, y, icon, q, a -> getDirection(), r);
             }
@@ -178,6 +178,7 @@ void handleKillItem(MapAction* a, Room *r)
 
 int main()
 {
+    bool debug = true;
     queue <MapAction*> *q = new queue<MapAction*>();
 //    std::mutex *mtx = new std::mutex();
 //    mtx -> lock();
@@ -189,7 +190,8 @@ int main()
 
     Room *r = new Room(".rooms/001.txt", q);
     r -> addMapItem(player);
-    clear();
+    if (!debug)
+        clear();
 
     printw(r -> getRawLayout().c_str());
     printw(player -> getInventoryString().c_str());
@@ -199,7 +201,8 @@ int main()
     {
         while (!q -> empty())
         {
-            clear();
+            if (!debug)
+                clear();
             MapAction *a = q -> front();
 
             switch (a -> getType())

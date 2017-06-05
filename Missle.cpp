@@ -24,6 +24,25 @@ Direction Missle::getDirection()
     return direction;
 }
 
+void Missle::collide(MapItem *obstacle)
+{
+    switch(obstacle -> getType())
+    {
+        case BLOCK:
+        {
+            actionQueue-> push(new MapAction(
+                        obstacle -> getId(),
+                        obstacle -> getX(),
+                        obstacle -> getY(),
+                        obstacle -> getIcon(),
+                        '\0',
+                        KILL
+                    ));
+        }
+        default:
+            break;
+    }
+}
 
 void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
 {
@@ -53,6 +72,15 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
                 break;
         }
 
+        actionQueue-> push(new MapAction(
+                    m -> getId(),
+                    x,
+                    y,
+                    m -> getIcon(),
+                    '\0',
+                    MOVE
+                ));
+
         if (r -> isSolidObject(x, y) || r -> isOutOfBounds(x, y))
         {
             done = true;
@@ -64,19 +92,7 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
                         m -> getIcon(),
                         '\0',
                         KILL
-                        ));
-        }
-        else
-        {
-         actionQueue-> push(new MapAction(
-                    m -> getId(),
-                    x,
-                    y,
-                    m -> getIcon(),
-                    '\0',
-                    MOVE
                     ));
-
         }
      }
  }

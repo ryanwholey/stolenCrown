@@ -20,7 +20,7 @@ bool Player::hasItemInInventory(ItemType type)
     int size = inventory.size();
     for(int i = 0; i < size; i++)
     {
-        if (inventory.at(i) == KEY)
+        if (inventory.at(i) == type)
         {
             return true;
         }
@@ -83,7 +83,7 @@ void Player::collide(MapItem* obstacle)
                         KILL
                     ));
         default:
-            printw("collision\n");
+            break;
     }
 }
 
@@ -123,6 +123,11 @@ string Player::getInventoryString()
 
 void Player::shoot()
 {
+
+    if (!hasItemInInventory(GUN))
+    {
+        return;
+    }
     int x = getX();
     int y = getY();
 
