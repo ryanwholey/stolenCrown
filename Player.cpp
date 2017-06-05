@@ -105,7 +105,7 @@ string Player::getInventoryString()
                 str += "key";
                 break;
             case GUN:
-                str += "gun";
+                str += "laser";
                 break;
             default:
                 break;
