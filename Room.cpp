@@ -174,10 +174,7 @@ void Room::setVar(string var)
     }
 }
 
-void Room::changeTile(int x, int y, char icon)
-{
-    layout.at(y).at(x) = icon;
-}
+
 
 void Room::loadLayout(string filename)
 {
@@ -247,6 +244,12 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
         case FENCE:
             item = new FenceItem(x, y, q);
             break;
+        case ANGLE_FORWARD:
+            item = new AngleItem(x, y, '/', q);
+            break;
+        case ANGLE_BACKWARD:
+            item = new AngleItem(x, y, '\\', q);
+            break;
         default:
             break;
     }
@@ -289,6 +292,19 @@ void Room::createMapItems(queue<MapAction*>* q)
             {
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, FENCE, q);
+            }
+            else if (layout.at(r).at(c) == '\\' || layout.at(r).at(c) == '/')
+            {
+                char icon = layout.at(r).at(c);
+                layout.at(r).at(c) = ' ';
+                if (icon == '/')
+                {
+                    createItem(c, r, ANGLE_FORWARD, q);
+                }
+                else
+                {
+                    createItem(c, r, ANGLE_BACKWARD, q);
+                }
             }
         }
     }

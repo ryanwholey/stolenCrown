@@ -15,6 +15,7 @@
 #include "GunItem.hpp"
 #include "BlockItem.hpp"
 #include "FenceItem.hpp"
+#include "AngleItem.hpp"
 
 class Room
 {
