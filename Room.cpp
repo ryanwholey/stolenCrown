@@ -375,7 +375,11 @@ void Room::createMapItems(queue<MapAction*>* q)
         int colNum = layout.at(r).length();
         for (int c = 0; c < colNum; c++)
         {
-            if (layout.at(r).at(c) == 'L')
+            if (layout.at(r).at(c) == 'o')
+            {
+                layout.at(r).at(c) = ' ';
+            }
+            else if (layout.at(r).at(c) == 'L')
             {
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, LOCK, q);
@@ -484,6 +488,7 @@ void Room::saveRoomState()
         }
         else if (rawLayout.at(i) == 'o')
         {
+            printw("FOUND");
             rawLayout.at(i) = ' ';
         }
     }
@@ -507,6 +512,50 @@ void Room::saveRoomState()
     {
          state += "~RIGHT="  + removeDot(rightRoom) + "\n";
     }
+
+    for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
+    {
+        MapAction *action = (*it) -> getReaction();
+
+        if (action)
+        {
+            state += "~@";
+            state += std::to_string((*it) -> getX());
+            state += ",";
+            state += std::to_string((*it) -> getY());
+            state += ":";
+            switch(action -> getType())
+            {
+                case CHANGE:
+                    state += "CHANGE,";
+                    break;
+                case ADD:
+                    state += "ADD,";
+                    break;
+                default:
+                    break;
+            }
+            switch(action -> getIcon())
+            {
+                case '_':
+                    state += "DOOR,";
+                    break;
+                case 'K':
+                    state += "KEY,";
+                    break;
+                default:
+                    break;
+            }
+            state += std::to_string(action -> getX());
+            state += ",";
+            state += std::to_string(action -> getY());
+            state += "\n";
+
+
+        }
+    }
+
+
 
     fstream out;
     out.open(currentRoom, std::fstream::out | std::fstream::trunc);

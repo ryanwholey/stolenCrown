@@ -133,10 +133,11 @@ void Missle::moveForward(Missle* m, queue <MapAction*>* actionQueue, Room *r)
         }
 
         // if moved rooms, move missle off board for garbage collection
-        if (m -> roomName.compare(r -> getCurrentRoom()) > 0)
+        if (m -> roomName.compare(r -> getCurrentRoom()) != 0)
         {
             x = -1;
             y = -1;
+            m -> setIcon(' ');
         }
 
 

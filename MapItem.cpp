@@ -74,6 +74,11 @@ char MapItem::getIcon()
     return icon;
 }
 
+void MapItem::setIcon(char _icon)
+{
+    icon = _icon;
+}
+
 
 int MapItem::getId()
 {
