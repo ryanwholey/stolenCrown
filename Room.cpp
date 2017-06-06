@@ -488,7 +488,6 @@ void Room::saveRoomState()
         }
         else if (rawLayout.at(i) == 'o')
         {
-            printw("FOUND");
             rawLayout.at(i) = ' ';
         }
     }

@@ -55,6 +55,9 @@ void handleKeyPress(queue <MapAction*> *s, Player *player)
                     s -> push(new MapAction(1,2,3,'4', ch, QUIT));
                     done = true;
                     break;
+                case 'i':
+                    s -> push(new MapAction(1,2,3,'4', ch, INSTRUCTIONS));
+                    break;
                 default:
                     break;
             }
@@ -70,6 +73,7 @@ void initScrean()
     noecho();
     scrollok(stdscr, TRUE);
     nodelay(stdscr, TRUE);
+    curs_set(0);
 }
 
 void handleCollision(MapAction *a, Room *r)
@@ -208,6 +212,28 @@ void handleKillItem(MapAction* a, Room *r)
     r -> removeMapItem(id);
 }
 
+string instructions()
+{
+    string str = "\n\n";
+    str += "###################### Instructions ########################\n";
+    str += "|   Use <h> <j> <k> & <l> (vim keys) to navigate\n";
+    str += "|   Press <i> to show or hide these instructions\n";
+    str += "|   Press <q> to quit\n";
+    str += "|   Press <f> to fire laser (must have laser in inventory)\n";
+    str += "###################### Item blocks ########################\n";
+    str += "|   _ - Doors, move through them to get to the next room\n";
+    str += "|   K - Keys and can be picked up\n";
+    str += "|   L - Locks can be opened with keys\n";
+    str += "|   G - Laser gun, once picked up use <f> key to fire\n";
+    str += "|   # - Fences, you can't move through these.. maybe something can?\n";
+    str += "|   B - Blocks, perhaps something can destroy these?\n";
+    str += "|   / or \\ - Angles, reflect laser beams in other directions\n";
+    str += "|   @ - Targets, hit them! but with what....\n";
+    str += "######################@@@@@@@@@@@@@@@########################\n";
+
+    return str;
+}
+
 int main()
 {
     bool debug = false;
@@ -227,7 +253,9 @@ int main()
 
     printw(r -> getRawLayout().c_str());
     printw(player -> getInventoryString().c_str());
+    printw(instructions().c_str());
 
+    bool showInstructions = true;
     bool done = false;
     while(!done)
     {
@@ -251,6 +279,9 @@ int main()
                 case KILL:
                     handleKillItem(a, r);
                     break;
+                case INSTRUCTIONS:
+                    showInstructions = !showInstructions;
+                    break;
                 case CHANGE:
                     handleChangeSpace(a, r);
                     break;
@@ -263,6 +294,10 @@ int main()
 
             printw(r -> getRawLayout().c_str());
             printw(player -> getInventoryString().c_str());
+            if (showInstructions)
+            {
+                printw(instructions().c_str());
+            }
 
             refresh();
         }
@@ -271,7 +306,8 @@ int main()
     delete r;
     delete player;
     delete q;
-    //t.join();
     system("/bin/stty sane");
+    curs_set(1);
+
 }
 
