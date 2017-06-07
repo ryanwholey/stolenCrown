@@ -111,10 +111,7 @@ void Missle::collide(MapItem *obstacle)
         case TARGET:
         {
             MapAction *action = obstacle -> getReaction();
-            if (!obstacle -> isReactionPermanent())
-            {
-                obstacle -> setReaction(NULL);
-            }
+            obstacle -> setReaction(NULL);
             if (action)
             {
                 actionQueue-> push(action);

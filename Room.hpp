@@ -19,6 +19,7 @@
 #include "AngleItem.hpp"
 #include "TargetItem.hpp"
 #include "ReflectorItem.hpp"
+#include "ButtonItem.hpp"
 
 class Room
 {
@@ -37,6 +38,7 @@ class Room
         void setReaction(std::string);
         void setReactions();
         void clearVars();
+        std::string serializeReactionString(MapItem*, MapAction*, bool);
         std::string removeDot(std::string);
     public:
         Room(std::string, std::queue<MapAction*>*);
@@ -51,6 +53,7 @@ class Room
         MapItem* findMapItemByCoordinates(int, int);
         void addMapItem(MapItem*);
         void removeMapItem(int);
+        void postPlayerMoveHook(MapItem*, MapAction*);
         bool isSolidObject(int, int, MapItem*);
         bool isOutOfBounds(int, int);
         int getNumType(ItemType);

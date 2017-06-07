@@ -90,6 +90,14 @@ void handleCollision(MapAction *a, Room *r)
     }
 }
 
+void handlePostCollision(MapAction *a, Room *r, MapItem* item)
+{
+    if (item -> getType() == PLAYER)
+    {
+        r -> postPlayerMoveHook(item, a);
+    }
+}
+
 bool shouldMoveRoom(MapItem *item, Room *r, int x, int y)
 {
     if (item -> getType() == PLAYER)
@@ -136,6 +144,7 @@ void handleItemMove(MapAction *a, Room *r, queue <MapAction*> *q)
         {
             item -> setX(x);
             item -> setY(y);
+            handlePostCollision(a, r, item);
         }
     }
 }
@@ -176,7 +185,6 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
                         switch(obstacle -> getType())
                         {
                             case REFLECTOR:
-                                printw("HERE\n");
                             case ANGLE_FORWARD:
                             case ANGLE_BACKWARD:
                                 m -> collide(obstacle);
@@ -196,6 +204,12 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
         case 'K':
         {
             item = new KeyItem(a -> getX(), a -> getY(), q);
+            r -> addMapItem(item);
+            break;
+        }
+        case '\\':
+        {
+            item = new AngleItem(a -> getX(), a -> getY(), '\\', q);
             r -> addMapItem(item);
             break;
         }
@@ -294,7 +308,10 @@ int main()
             }
 
             q -> pop();
-            delete a;
+            if (!a -> getIsPermanent())
+            {
+                delete a;
+            }
 
             printw(r -> getRawLayout().c_str());
             printw(player -> getInventoryString().c_str());

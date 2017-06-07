@@ -2,7 +2,7 @@
 
 using std::queue;
 
-ReflectorItem::ReflectorItem(int _x, int _y, queue <MapAction*>*_q) : MapItem(_x, _y, '*', _q) {}
+ReflectorItem::ReflectorItem(int _x, int _y, queue <MapAction*>*_q) : MapItem(_x, _y, 'O', _q) {}
 
 ItemType ReflectorItem::getType()
 {

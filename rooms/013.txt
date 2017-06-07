@@ -1,17 +1,21 @@
 <layout>
 XXXXXXXXXXXXXXXXXXXXXXXXX
-X @ @ #    @  /       \ X
+X     #       /       \ X
 X     #                 X
-X     #                 X
+X     X           @     X
 _     #                 X
-X     #       *         X
+X     #       O         X
 X     #               / X
-X     XXXXXXXXXXXXXXXXXXX
-X                       X
+X     ############X#####X
+X *                     X
 XXXXXXXXXXXXXXXXXXXXXXXXX
 </layout>
-~RIGHT=rooms/013.txt
-~DOWN=rooms/011.txt
-~@12,2:CHANGE,EMPTY,2,2
-~@24,1:CHANGE,DOOR,24,4
+~RIGHT=rooms/014.txt
+~LEFT=rooms/012.txt
+~@18,3:CHANGE,DOOR,24,8
+
+~@2,8:ADD,ANGLE_BACKWARD,18,1
+~@2,8:ADD,ANGLE_BACKWARD,18,1
+
+
 

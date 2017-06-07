@@ -7,4 +7,3 @@ ItemType BlockItem::getType()
     return BLOCK;
 }
 
-

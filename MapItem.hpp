@@ -17,7 +17,7 @@ class MapItem
         int y;
         char icon;
         MapAction* reaction;
-        bool reactionPermanent;
+        MapAction* postReaction;
     protected:
         int id;
         queue <MapAction*> *actionQueue;
@@ -30,10 +30,11 @@ class MapItem
         void setX(int);
         void setY(int);
         int getId();
+        queue<MapAction*>* getQueue();
         void setReaction(MapAction*);
         MapAction* getReaction();
-        void setReactionPermanent(bool);
-        bool isReactionPermanent();
+        void setPostReaction(MapAction*);
+        MapAction* getPostReaction();
         virtual void collide(MapItem*);
         virtual ItemType getType();
         virtual char getIcon();

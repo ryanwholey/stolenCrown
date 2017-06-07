@@ -8,6 +8,7 @@ MapAction::MapAction(int _id, int _x, int _y, char _icon, char _key, MapActionTy
     key = _key;
     type = _type;
     direction = _d;
+    isPermanent = false;
 }
 
 
@@ -44,5 +45,15 @@ MapActionType MapAction::getType()
 Direction MapAction::getDirection()
 {
     return direction;
+}
+
+void MapAction::setIsPermanent(bool _isPerm)
+{
+    isPermanent = _isPerm;
+}
+
+bool MapAction::getIsPermanent()
+{
+    return isPermanent;
 }
 

@@ -95,6 +95,35 @@ void Room::setReactions()
     }
 }
 
+void Room::postPlayerMoveHook(MapItem* item, MapAction *action)
+{
+    for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
+    {
+        switch((*it) -> getType())
+        {
+            case BUTTON:
+            {
+                ButtonItem *b = dynamic_cast<ButtonItem*>((*it));
+                if (b -> isOn() && (item -> getX() != b -> getX() || item -> getY() != b -> getY()))
+                {
+                    b -> setOn(false);
+                    MapAction *action = b -> getPostReaction();
+                    if (action)
+                    {
+                        action  -> setIsPermanent (true);
+                        queue<MapAction*> *actionQueue = item -> getQueue();
+                        actionQueue -> push(action);
+                    }
+                }
+
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
+
 
 void Room::clearVars()
 {
@@ -237,7 +266,17 @@ void Room::loadLayout(string filename)
 
 void Room::setReaction(string reactionStr)
 {
-    string tmp = reactionStr.substr(2);
+    bool isPostReaction = false;
+    string tmp = "";
+    if (reactionStr.at(2) == '@')
+    {
+        isPostReaction = true;
+        tmp = reactionStr.substr(3);
+    }
+    else
+    {
+        tmp = reactionStr.substr(2);
+    }
 
     // get x
     int x = stoi(tmp.substr(0, tmp.find(',')));
@@ -286,10 +325,20 @@ void Room::setReaction(string reactionStr)
         itemType = DOOR;
         itemIcon = '_';
     }
+    else if (type.compare("ANGLE_BACKWARD") == 0)
+    {
+        itemType = ANGLE_BACKWARD;
+        itemIcon = '\\';
+    }
     else if (type.compare("EMPTY") == 0)
     {
         itemType = EMPTY;
         itemIcon = ' ';
+    }
+    else if (type.compare("WALL") == 0)
+    {
+        itemType = WALL;
+        itemIcon = 'X';
     }
 
     tmp = tmp.substr(tmp.find(',') + 1);
@@ -313,7 +362,14 @@ void Room::setReaction(string reactionStr)
     if (actionType != NOOP && itemType != MAPITEM && itemIcon != '\0')
     {
         MapAction *action = new MapAction(-1, x, y, itemIcon, '\0', actionType, NONE);
-        item -> setReaction(action);
+        if (isPostReaction)
+        {
+            item -> setPostReaction(action);
+        }
+        else
+        {
+            item -> setReaction(action);
+        }
     }
 }
 
@@ -362,6 +418,9 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
             break;
         case ANGLE_BACKWARD:
             item = new AngleItem(x, y, '\\', q);
+            break;
+        case BUTTON:
+            item = new ButtonItem(x, y, q);
             break;
         case TARGET:
             item = new TargetItem(x, y, q);
@@ -413,10 +472,15 @@ void Room::createMapItems(queue<MapAction*>* q)
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, FENCE, q);
             }
-            else if (layout.at(r).at(c) == '*')
+            else if (layout.at(r).at(c) == 'O')
             {
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, REFLECTOR, q);
+            }
+            else if (layout.at(r).at(c) == '*')
+            {
+                layout.at(r).at(c) = ' ';
+                createItem(c, r, BUTTON, q);
             }
             else if (layout.at(r).at(c) == '\\' || layout.at(r).at(c) == '/')
             {
@@ -532,48 +596,73 @@ void Room::saveRoomState()
 
         if (action)
         {
-            state += "~@";
-            state += std::to_string((*it) -> getX());
-            state += ",";
-            state += std::to_string((*it) -> getY());
-            state += ":";
-            switch(action -> getType())
-            {
-                case CHANGE:
-                    state += "CHANGE,";
-                    break;
-                case ADD:
-                    state += "ADD,";
-                    break;
-                default:
-                    break;
-            }
-            switch(action -> getIcon())
-            {
-                case '_':
-                    state += "DOOR,";
-                    break;
-                case 'K':
-                    state += "KEY,";
-                    break;
-                default:
-                    break;
-            }
-            state += std::to_string(action -> getX());
-            state += ",";
-            state += std::to_string(action -> getY());
-            state += "\n";
-
-
+            state += serializeReactionString((*it), action, false);
+        }
+        MapAction *postReaction = (*it) -> getPostReaction();
+        if (postReaction)
+        {
+             state += serializeReactionString((*it), postReaction, true);
         }
     }
-
 
 
     fstream out;
     out.open(currentRoom, std::fstream::out | std::fstream::trunc);
     out << state;
     out.close();
+}
+
+string Room::serializeReactionString(MapItem* item, MapAction* action, bool isPostReaction)
+{
+    string state = "";
+    if (isPostReaction)
+    {
+        state += "~@@";
+    }
+    else
+    {
+        state += "~@";
+    }
+    state += std::to_string(item -> getX());
+    state += ",";
+    state += std::to_string(item -> getY());
+    state += ":";
+    switch(action -> getType())
+    {
+        case CHANGE:
+            state += "CHANGE,";
+            break;
+        case ADD:
+            state += "ADD,";
+            break;
+        default:
+            break;
+    }
+    switch(action -> getIcon())
+    {
+        case '_':
+            state += "DOOR,";
+            break;
+        case 'K':
+            state += "KEY,";
+            break;
+        case '\\':
+            state += "ANGLE_BACKWARD,";
+            break;
+        case ' ':
+            state += "EMPTY,";
+            break;
+        case 'X':
+            state += "WALL,";
+            break;
+        default:
+            break;
+    }
+    state += std::to_string(action -> getX());
+    state += ",";
+    state += std::to_string(action -> getY());
+    state += "\n";
+    return state;
 }
 
 string Room::getRawLayout()

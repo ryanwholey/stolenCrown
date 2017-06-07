@@ -82,6 +82,19 @@ void Player::collide(MapItem* obstacle)
                         '\0',
                         KILL
                     ));
+            break;
+        case BUTTON:
+        {
+            ButtonItem* button = dynamic_cast<ButtonItem*>(obstacle);
+            button -> setOn(true);
+            MapAction *action = button -> getReaction();
+            action -> setIsPermanent(true);
+            if (action)
+            {
+                actionQueue -> push(action);
+            }
+            break;
+        }
         default:
             break;
     }
