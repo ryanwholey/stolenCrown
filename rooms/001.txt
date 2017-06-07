@@ -1,16 +1,14 @@
 <layout>
-XXXXXXXXXXXXXXX_XXXXXXXXX
-X              L        X
-X    K                  X
-X            /          @
-_                       X
+XXXXXXXXXXXX_XXXXXXXXXXXX
+XXXXXXXXXXX   XXXXXXXXXXX
+XXXXXXXXXXX             X
+XXXXXXXXXXXXXXXXXXXXX   X
 X                       X
-X                       X
-X                       X
-X \                     X
+X   XXXXXXXXXXXXXXXXXXXXX
+X   *          XXXXXXXXXX
+X   \          XXXXXXXXXX
+XXXXXXXXXXXX   XXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXX
 </layout>
 ~UP=rooms/002.txt
-~LEFT=rooms/003.txt
-~@24,3:CHANGE,DOOR,13,9
 

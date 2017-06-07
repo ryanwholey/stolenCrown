@@ -68,7 +68,7 @@ void Missle::collide(MapItem *obstacle)
         }
         case ANGLE_BACKWARD:
         {
-             switch(direction)
+            switch(direction)
             {
                 case UP:
                     setDirection(LEFT);
@@ -87,10 +87,34 @@ void Missle::collide(MapItem *obstacle)
             }
             break;
         }
+        case REFLECTOR:
+        {
+            switch(direction)
+            {
+                case UP:
+                    setDirection(DOWN);
+                    break;
+                case RIGHT:
+                    setDirection(LEFT);
+                    break;
+                case DOWN:
+                    setDirection(UP);
+                    break;
+                case LEFT:
+                    setDirection(RIGHT);
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
         case TARGET:
         {
             MapAction *action = obstacle -> getReaction();
-            obstacle -> setReaction(NULL);
+            if (!obstacle -> isReactionPermanent())
+            {
+                obstacle -> setReaction(NULL);
+            }
             if (action)
             {
                 actionQueue-> push(action);

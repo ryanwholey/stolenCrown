@@ -1,15 +1,18 @@
 <layout>
-XXXXXXXXXXXXXXXXXXXXXXXXX
-X G   X                 X
-X     X                 X
-X     X                 X
-X     X    X      X     X
-X     X    X      X     X
-X          X      X     X
-X          X      X     X
-X          X      X     X
-XXXXXXXXXXXXX_XXXXXXXXXXX
+XXXXXXXXXXXX_XXXXXXXXXXXX
+X           L           X
+X                       X
+X    XXXX       XXXX    X
+X    XXXX       XXXX    X
+_    XXXX       XXXX    _
+X    XXXX       XXXX    X
+X                       X
+X                       X
+XXXXXXXXXXXX_XXXXXXXXXXXX
 </layout>
 ~DOWN=rooms/001.txt
+~RIGHT=rooms/003.txt
+~UP=rooms/005.txt
+~LEFT=rooms/006.txt
 
 

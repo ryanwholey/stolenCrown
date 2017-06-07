@@ -158,12 +158,13 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
                 Missle *m = dynamic_cast<Missle*>(item);
                 MapItem *obstacle = r -> findMapItemByCoordinates(x, y);
 
-                bool isAngle = (obstacle && (
+                bool isBounceSurface = (obstacle && (
                         obstacle -> getType() == ANGLE_FORWARD ||
-                        obstacle -> getType() == ANGLE_BACKWARD
+                        obstacle -> getType() == ANGLE_BACKWARD ||
+                        obstacle -> getType() == REFLECTOR
                         ));
 
-                if (!r -> isSolidObject(x, y, item) && !isAngle)
+                if (!r -> isSolidObject(x, y, item) && !isBounceSurface)
                 {
                     m -> start();
                     r -> addMapItem(m);
@@ -174,6 +175,8 @@ void handleAddItem(MapAction* a, Room *r, queue <MapAction*> *q)
                     {
                         switch(obstacle -> getType())
                         {
+                            case REFLECTOR:
+                                printw("HERE\n");
                             case ANGLE_FORWARD:
                             case ANGLE_BACKWARD:
                                 m -> collide(obstacle);
@@ -253,7 +256,8 @@ int main()
 
     printw(r -> getRawLayout().c_str());
     printw(player -> getInventoryString().c_str());
-    printw(instructions().c_str());
+    if (!debug)
+        printw(instructions().c_str());
 
     bool showInstructions = true;
     bool done = false;
@@ -294,7 +298,7 @@ int main()
 
             printw(r -> getRawLayout().c_str());
             printw(player -> getInventoryString().c_str());
-            if (showInstructions)
+            if (showInstructions && !debug)
             {
                 printw(instructions().c_str());
             }

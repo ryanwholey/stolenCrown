@@ -11,6 +11,7 @@ MapItem::MapItem(int _x, int _y, char _icon, queue <MapAction*>*_q)
     x = _x;
     y = _y;
     reaction = NULL;
+    reactionPermanent = false;
 }
 
 MapItem::~MapItem() {
@@ -34,7 +35,6 @@ bool MapItem::isSolid(MapItem* traveler)
     return true;
 }
 
-
 void MapItem::setReaction(MapAction* action)
 {
     reaction = action;
@@ -43,6 +43,16 @@ void MapItem::setReaction(MapAction* action)
 MapAction* MapItem::getReaction()
 {
     return reaction;
+}
+
+void MapItem::setReactionPermanent(bool _isPerm)
+{
+    reactionPermanent = _isPerm;
+}
+
+bool MapItem::isReactionPermanent()
+{
+    return reactionPermanent;
 }
 
 void MapItem::collide(MapItem*)

@@ -18,6 +18,7 @@
 #include "FenceItem.hpp"
 #include "AngleItem.hpp"
 #include "TargetItem.hpp"
+#include "ReflectorItem.hpp"
 
 class Room
 {

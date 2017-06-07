@@ -1,16 +1,14 @@
 <layout>
 XXXXXXXXXXXXXXXXXXXXXXXXX
-X         #             X
-X         #             X
-X         #             X
-X         #             _
-@         #             X
-X         #             X
-X         #             X
-X         #             X
+X                       X
+X     FOR LATER...      X
+X      SHOOT THE        X
+X   THIRD @ FROM THE    X
+X     LEFT ON THE       X
+X       bOTTOM!!        X
+X                       X
+_                       X
 XXXXXXXXXXXXXXXXXXXXXXXXX
 </layout>
-~RIGHT=rooms/003.txt
-~DOWN=rooms/005.txt
-~@0,5:CHANGE,DOOR,13,9
+~LEFT=rooms/003.txt
 

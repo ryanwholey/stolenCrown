@@ -286,6 +286,12 @@ void Room::setReaction(string reactionStr)
         itemType = DOOR;
         itemIcon = '_';
     }
+    else if (type.compare("EMPTY") == 0)
+    {
+        itemType = EMPTY;
+        itemIcon = ' ';
+    }
+
     tmp = tmp.substr(tmp.find(',') + 1);
 
     // get reaction x
@@ -348,6 +354,9 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
         case FENCE:
             item = new FenceItem(x, y, q);
             break;
+        case REFLECTOR:
+            item = new ReflectorItem(x, y, q);
+            break;
         case ANGLE_FORWARD:
             item = new AngleItem(x, y, '/', q);
             break;
@@ -403,6 +412,11 @@ void Room::createMapItems(queue<MapAction*>* q)
             {
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, FENCE, q);
+            }
+            else if (layout.at(r).at(c) == '*')
+            {
+                layout.at(r).at(c) = ' ';
+                createItem(c, r, REFLECTOR, q);
             }
             else if (layout.at(r).at(c) == '\\' || layout.at(r).at(c) == '/')
             {

@@ -1,0 +1,17 @@
+<layout>
+XXXXXXXXXXXXXXXXXXXXXXXXX
+X @ @ #    @  /       \ X
+X     #                 X
+X     #                 X
+_     #                 X
+X     #       *         X
+X     #               / X
+X     XXXXXXXXXXXXXXXXXXX
+X                       X
+XXXXXXXXXXXXXXXXXXXXXXXXX
+</layout>
+~RIGHT=rooms/013.txt
+~DOWN=rooms/011.txt
+~@12,2:CHANGE,EMPTY,2,2
+~@24,1:CHANGE,DOOR,24,4
+
