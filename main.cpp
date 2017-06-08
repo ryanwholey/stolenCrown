@@ -226,6 +226,15 @@ void handleChangeSpace(MapAction* a, Room *r)
 void handleKillItem(MapAction* a, Room *r)
 {
     int id = a -> getId();
+    MapItem* i;
+    if (id == -1)
+    {
+        i = r -> findMapItemByCoordinates(a -> getX(), a -> getY());
+        if (i)
+        {
+            id = i -> getId();
+        }
+    }
     r -> removeMapItem(id);
 }
 
@@ -253,7 +262,7 @@ string instructions()
 
 int main()
 {
-    bool debug = false;
+    bool debug = true;
     queue <MapAction*> *q = new queue<MapAction*>();
 //    std::mutex *mtx = new std::mutex();
 //    mtx -> lock();

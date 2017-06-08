@@ -110,6 +110,7 @@ void Room::postPlayerMoveHook(MapItem* item, MapAction *action)
                     MapAction *action = b -> getPostReaction();
                     if (action)
                     {
+                        printw("GOT POST REACTION\n");
                         action  -> setIsPermanent (true);
                         queue<MapAction*> *actionQueue = item -> getQueue();
                         actionQueue -> push(action);
