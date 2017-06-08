@@ -117,6 +117,12 @@ void handleMoveRoom(MapItem *item, Room *r, queue <MapAction*> *q)
     r -> saveRoomState();
     Direction d = p -> getDirection();
 
+    if (p -> hasItemInInventory(CROWN))
+    {
+        q -> push(new MapAction( 0, 0, 0, '\0','\0', WIN));
+        return;
+    }
+
     string roomFilename = r -> getNextRoomFile(d);
 
     r -> init(roomFilename, q);
@@ -260,9 +266,14 @@ string instructions()
     return str;
 }
 
+void handleWin(Room* room, queue<MapAction*>* q)
+{
+    room -> init("rooms/win.txt", q);
+}
+
 int main()
 {
-    bool debug = true;
+    bool debug = false;
     queue <MapAction*> *q = new queue<MapAction*>();
 //    std::mutex *mtx = new std::mutex();
 //    mtx -> lock();
@@ -311,6 +322,9 @@ int main()
                     break;
                 case CHANGE:
                     handleChangeSpace(a, r);
+                    break;
+                case WIN:
+                    handleWin(r, q);
                     break;
                 default:
                     break;

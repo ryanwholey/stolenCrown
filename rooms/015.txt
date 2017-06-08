@@ -1,0 +1,16 @@
+<layout>
+XXXXXXXXXXXXXXXXXXXXXXXXX
+X                       X
+X                       X
+X   NEXT R00M l00KS     X
+X     FAMIlIAR...       X
+X   PERHAPS THERES      X
+X   S0METHINg Y0UVE     X
+_    0VERl00kED...?     X
+X                       X
+XXXXXXXXXXXX_XXXXXXXXXXXX
+</layout>
+
+~LEFT=rooms/014.txt
+~DOWN=rooms/004.txt
+

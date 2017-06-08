@@ -20,6 +20,7 @@
 #include "TargetItem.hpp"
 #include "ReflectorItem.hpp"
 #include "ButtonItem.hpp"
+#include "CrownItem.hpp"
 
 class Room
 {

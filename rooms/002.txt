@@ -11,7 +11,7 @@ X                       X
 XXXXXXXXXXXX_XXXXXXXXXXXX
 </layout>
 ~DOWN=rooms/001.txt
-~RIGHT=rooms/013.txt
+~RIGHT=rooms/016.txt
 ~UP=rooms/005.txt
 ~LEFT=rooms/006.txt
 

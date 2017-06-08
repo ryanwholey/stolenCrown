@@ -1,14 +1,19 @@
 <layout>
 XXXXXXXXXXXXXXXXXXXXXXXXX
 X                       X
-X     F0R lATER...      X
-X      SH00T THE        X
-X   THIRD @ FR0M THE    X
-X     lEFT 0N THE       X
-X       b0TT0M!!        X
+X   HINT F0R lATER...   X
+X     THE THIRD @       X
+X   FR0M THE lEFT 0N    X
+X    THE b0TT0M IS      X
+X      SPECIAl!!!       X
 X                       X
-_                       X
-XXXXXXXXXXXXXXXXXXXXXXXXX
+X                       X
+XXXXXXXXXXXX_XXXXXXXXXXXX
 </layout>
-~LEFT=rooms/003.txt
+~DOWN=rooms/003.txt
+~UP=rooms/015.txt
+~RIGHT=rooms/016.txt
+
+
+~@16,3:CHANGE,DOOR,24,4
 

@@ -141,13 +141,25 @@ void Room::setNextRoomPosition(MapItem* item)
         {
             int lastRow = layout.size() -1;
             player -> setY(lastRow);
-            player -> setX(layout.at(lastRow).find('_'));
+            int xPos = layout.at(lastRow).find('_');
+            if (xPos == string::npos)
+            {
+                xPos = 12;
+                changeTile(xPos, lastRow, '_');
+            }
+            player -> setX(xPos);
             break;
         }
         case DOWN:
         {
             player -> setY(0);
-            player -> setX(layout.at(0).find('_'));
+            int xPos = layout.at(0).find('_');
+            if (xPos == string::npos)
+            {
+                xPos = 12;
+                changeTile(xPos, 0, '_');
+            }
+            player -> setX(xPos);
             break;
         }
         case RIGHT:
@@ -426,6 +438,9 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
         case TARGET:
             item = new TargetItem(x, y, q);
             break;
+        case CROWN:
+            item = new CrownItem(x, y, q);
+            break;
         default:
             break;
     }
@@ -500,6 +515,11 @@ void Room::createMapItems(queue<MapAction*>* q)
             {
                 layout.at(r).at(c) = ' ';
                 createItem(c, r, TARGET, q);
+            }
+            else if (layout.at(r).at(c) == 'M')
+            {
+                layout.at(r).at(c) = ' ' ;
+                createItem(c, r, CROWN, q);
             }
         }
     }

@@ -88,11 +88,34 @@ void Player::collide(MapItem* obstacle)
             ButtonItem* button = dynamic_cast<ButtonItem*>(obstacle);
             button -> setOn(true);
             MapAction *action = button -> getReaction();
-            action -> setIsPermanent(true);
+            if (action)
+            {
+                action -> setIsPermanent(true);
+                actionQueue -> push(action);
+            }
+            break;
+        }
+        case CROWN:
+        {
+            addToInventory(CROWN);
+            MapAction *action = obstacle -> getReaction();
+            obstacle -> setReaction(NULL);
+
             if (action)
             {
                 actionQueue -> push(action);
             }
+
+            actionQueue -> push(new MapAction(
+                            obstacle -> getId(),
+                            obstacle -> getX(),
+                            obstacle -> getY(),
+                            obstacle -> getIcon(),
+                            '\0',
+                            KILL
+                        ));
+
+
             break;
         }
         default:
@@ -119,6 +142,9 @@ string Player::getInventoryString()
                 break;
             case GUN:
                 str += "laser";
+                break;
+            case CROWN:
+                str += "crown";
                 break;
             default:
                 break;

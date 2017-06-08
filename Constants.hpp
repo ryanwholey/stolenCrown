@@ -7,7 +7,7 @@
 
 enum Direction {RIGHT=1, DOWN=2, LEFT=3, UP=4, NONE=0};
 
-enum MapActionType {QUIT=1, MOVE=2, ADD=3, KILL=4, CHANGE=5, INSTRUCTIONS=6, NOOP=7};
+enum MapActionType {QUIT=1, MOVE=2, ADD=3, KILL=4, CHANGE=5, INSTRUCTIONS=6, WIN=7, NOOP=8};
 
 enum ItemType {
     MAPITEM=1,
@@ -27,7 +27,8 @@ enum ItemType {
     EMPTY=15,
     REFLECTOR=16,
     BUTTON=17,
-    WALL=18
+    WALL=18,
+    CROWN=19
 };
 
 
