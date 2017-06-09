@@ -205,7 +205,7 @@ void Room::changeTile(int x, int y, char icon)
 {
     if (y < layout.size() && y >= 0)
     {
-        if (x < layout.at(y).length() & x >= 0)
+        if (x < layout.at(y).length() && x >= 0)
         {
             layout.at(y).at(x) = icon;
         }
