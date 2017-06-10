@@ -1,3 +1,10 @@
+/****************************************************************
+ * Program: Project 5
+ * Name: Ryan Wholey
+ * Date: 6/8/17
+ * Description: Constants!
+ * **************************************************************/
+
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
 
@@ -5,10 +12,13 @@
 #include <string>
 //#include <mutex>
 
+// the directions enum
 enum Direction {RIGHT=1, DOWN=2, LEFT=3, UP=4, NONE=0};
 
+// all of the map action types
 enum MapActionType {QUIT=1, MOVE=2, ADD=3, KILL=4, CHANGE=5, INSTRUCTIONS=6, WIN=7, NOOP=8};
 
+// all of the item types
 enum ItemType {
     MAPITEM=1,
     CREATURE=2,

@@ -1,3 +1,12 @@
+/****************************************************************
+ * Program: Project 5
+ * Name: Ryan Wholey
+ * Date: 6/8/17
+ * Description: Derived creature, this player is the main
+ * character in the mission. Basically a wrapper around the
+ * functionality of the creature
+ * **************************************************************/
+
 #include "Player.hpp"
 
 // temp
@@ -6,15 +15,18 @@
 using std::queue;
 using std::string;
 
+// constructor takes coord x, coord y, icon char and action queue
 Player::Player(int _x, int _y, char _icon, queue <MapAction*>*_q) : Creature(_x, _y, _icon, _q) {
     direction = UP;
 }
 
+// returns the player type PLAYER
 ItemType Player::getType()
 {
     return PLAYER;
 }
 
+// checks if player has an item in its inventory
 bool Player::hasItemInInventory(ItemType type)
 {
     int size = inventory.size();
@@ -29,6 +41,7 @@ bool Player::hasItemInInventory(ItemType type)
     return false;
 }
 
+// removes an item from the players inventory
 void Player::removeFromInventory(ItemType type)
 {
     int size = inventory.size();
@@ -43,6 +56,7 @@ void Player::removeFromInventory(ItemType type)
     }
 }
 
+// handles all collisions the player has with other items
 void Player::collide(MapItem* obstacle)
 {
     switch(obstacle -> getType())
@@ -123,11 +137,14 @@ void Player::collide(MapItem* obstacle)
     }
 }
 
+
+// pushes an item into the players inventory
 void Player::addToInventory(ItemType type)
 {
     inventory.push_back(type);
 }
 
+// formats the current inventory into a human readable string
 string Player::getInventoryString()
 {
     string str = "Inventory: [";
@@ -160,13 +177,14 @@ string Player::getInventoryString()
     return str;
 }
 
+// handles the shoot functionality
 void Player::shoot()
 {
 
-//    if (!hasItemInInventory(GUN))
-//    {
-//        return;
-//    }
+    if (!hasItemInInventory(GUN))
+    {
+        return;
+    }
     int x = getX();
     int y = getY();
 
@@ -191,39 +209,48 @@ void Player::shoot()
     actionQueue -> push(new MapAction( 0, x, y, 'o', '\0', ADD, direction));
 }
 
+// sets the players direction
 void Player::setDirection(Direction d)
 {
     direction = d;
 }
 
+// returns the players current direction
 Direction Player::getDirection()
 {
     return direction;
 }
 
+// puts a MapAction to move the player on the room
 void Player::goUp() {
     setDirection(UP);
     Creature::goUp();
 }
 
+
+// puts a MapAction to move the player on the room
 void Player::goRight()
 {
     setDirection(RIGHT);
     Creature::goRight();
 }
 
+
+// puts a MapAction to move the player on the room
 void Player::goDown()
 {
     setDirection(DOWN);
     Creature::goDown();
 }
 
+// puts a MapAction to move the player on the room
 void Player::goLeft()
 {
     setDirection(LEFT);
     Creature::goLeft();
 }
 
+// get player icon based on direction
 char Player::getIcon() {
     switch(direction)
     {
@@ -239,5 +266,4 @@ char Player::getIcon() {
             return '\0';
     }
 }
-
 

@@ -1,3 +1,13 @@
+/****************************************************************
+ * Program: Project 5
+ * Name: Ryan Wholey
+ * Date: 6/8/17
+ * Description: Room is responsible for a lot of the games
+ * behavior. All of the serialization and deserialization of
+ * static maps, during game map rendering, killing and adding
+ * items with the mapItems list.
+ * **************************************************************/
+
 #include "Room.hpp"
 
 // temp
@@ -12,16 +22,16 @@ using std::list;
 using std::fstream;
 using std::ofstream;
 
+// constructor takes a filename and the action queue
 Room::Room(string filename, queue <MapAction*> *q)
 {
     init(filename, q);
 }
 
-Room::~Room()
-{
-    // delete items not going to be used in next room
-}
+// deconstructor
+Room::~Room() { }
 
+// returns whether or not the room is clean for serialization
 bool Room::isRoomClean()
 {
     bool isClean = true;
@@ -45,6 +55,7 @@ bool Room::isRoomClean()
     return isClean;
 }
 
+// deserializes a room  and cretes its items
 void Room::init(string filename, queue <MapAction*> *q)
 {
     currentRoom = filename;
@@ -86,6 +97,7 @@ void Room::init(string filename, queue <MapAction*> *q)
     }
 }
 
+// runs through all raw reactions on the reaction stack and assigns them
 void Room::setReactions()
 {
     while(!rawReactions.empty())
@@ -95,6 +107,7 @@ void Room::setReactions()
     }
 }
 
+// a hook to handle post collisions
 void Room::postPlayerMoveHook(MapItem* item, MapAction *action)
 {
     for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
@@ -125,12 +138,13 @@ void Room::postPlayerMoveHook(MapItem* item, MapAction *action)
     }
 }
 
-
+// clears all vars regarding adjacent rooms
 void Room::clearVars()
 {
     upRoom = downRoom = leftRoom = rightRoom = "";
 }
 
+// sets the user in the newly loaded room
 void Room::setNextRoomPosition(MapItem* item)
 {
     Player *player = dynamic_cast<Player*>(item);
@@ -196,11 +210,13 @@ void Room::setNextRoomPosition(MapItem* item)
     }
 }
 
+// gets the current room filename
 string Room::getCurrentRoom()
 {
     return currentRoom;
 }
 
+// changes a specific tile to the passed char at the passed coords
 void Room::changeTile(int x, int y, char icon)
 {
     if (y < layout.size() && y >= 0)
@@ -212,7 +228,7 @@ void Room::changeTile(int x, int y, char icon)
     }
 }
 
-
+// sets the room vars
 void Room::setVar(string var)
 {
     int index = var.find('=');
@@ -237,8 +253,7 @@ void Room::setVar(string var)
     }
 }
 
-
-
+// takes a room filename and loads the raw layout
 void Room::loadLayout(string filename)
 {
     fstream in;
@@ -277,6 +292,7 @@ void Room::loadLayout(string filename)
     in.close();
 }
 
+// takes a raw reaction string and assigns it to a matching mapItem
 void Room::setReaction(string reactionStr)
 {
     bool isPostReaction = false;
@@ -403,6 +419,8 @@ string Room::getNextRoomFile(Direction d)
     }
 }
 
+// creates the item type passed at the x, y coordinates passed
+// and adds it to the mapItems list
 void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
 {
     MapItem *item = NULL;
@@ -451,6 +469,8 @@ void Room::createItem(int x, int y, ItemType type, queue<MapAction*>* q)
     }
 }
 
+// runs through the raw layout and creates menu items from
+// the characters placed on the map
 void Room::createMapItems(queue<MapAction*>* q)
 {
     int rowNum = layout.size();
@@ -525,6 +545,7 @@ void Room::createMapItems(queue<MapAction*>* q)
     }
 }
 
+// gets the number of items of the current type in the room
 int Room::getNumType(ItemType t)
 {
     int count = 0;
@@ -542,6 +563,7 @@ int Room::getNumType(ItemType t)
     return count;
 }
 
+// removes a map item from the mapItems list by id
 void Room::removeMapItem(int id)
 {
     for (list<MapItem*>::const_iterator it = mapItems.begin(), end = mapItems.end(); it!= end; ++it)
@@ -557,6 +579,7 @@ void Room::removeMapItem(int id)
     }
 }
 
+// helper to remove the dot in front of file names
 string Room::removeDot(string filename)
 {
     if(filename.length() > 0)
@@ -569,6 +592,7 @@ string Room::removeDot(string filename)
     return filename;
 }
 
+// serializes a rooms state to be recalled later
 void Room::saveRoomState()
 {
     string state = "";
@@ -633,6 +657,7 @@ void Room::saveRoomState()
     out.close();
 }
 
+// serializes all the reactions on the map
 string Room::serializeReactionString(MapItem* item, MapAction* action, bool isPostReaction)
 {
     string state = "";
@@ -686,6 +711,7 @@ string Room::serializeReactionString(MapItem* item, MapAction* action, bool isPo
     return state;
 }
 
+// returns the layout as a printable string
 string Room::getRawLayout()
 {
     vector<string> finalMap = layout;
@@ -718,11 +744,13 @@ string Room::getRawLayout()
     return map;
 }
 
+// adds a map item to the mapItems list
 void Room::addMapItem(MapItem* item)
 {
     mapItems.push_back(item);
 }
 
+// checks if the passed coordinates are out of bounds
 bool Room::isOutOfBounds(int x, int y)
 {
     return (
@@ -734,6 +762,8 @@ bool Room::isOutOfBounds(int x, int y)
 }
 
 
+// checks whether or not the passed coordiantes hold a solid item
+// based on the passed mapItem
 bool Room::isSolidObject(int x, int y, MapItem* traveler = NULL)
 {
     if (isOutOfBounds(x, y))
@@ -754,6 +784,7 @@ bool Room::isSolidObject(int x, int y, MapItem* traveler = NULL)
     return false;
 }
 
+// finds a map item by coordinates
 MapItem* Room::findMapItemByCoordinates(int x, int y)
 {
     MapItem *item = NULL;
@@ -773,6 +804,7 @@ MapItem* Room::findMapItemByCoordinates(int x, int y)
 
 }
 
+// finds a map item by id
 MapItem* Room::findMapItem(int id)
 {
     MapItem *item = NULL;
@@ -788,5 +820,4 @@ MapItem* Room::findMapItem(int id)
 
     return item;
 }
-
 
