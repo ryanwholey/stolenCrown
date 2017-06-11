@@ -61,6 +61,8 @@ void handleKillItem(MapAction*, Room*);
 std::string instructions();
 // loads the winning room!
 void handleWin(Room*, std::queue<MapAction*>*);
+// loads the losing room :(
+void handleLose(Room*, std::queue<MapAction*>*);
 // entry point for the game library. start the game with this method
 void start();
 

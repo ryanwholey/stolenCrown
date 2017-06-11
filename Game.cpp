@@ -296,6 +296,7 @@ void handleWin(Room* room, queue<MapAction*>* q)
     room -> init("rooms/win.txt", q);
 }
 
+// loads the losing room :(
 void handleLose(Room *room, queue<MapAction*>* q)
 {
     room -> init("rooms/lose.txt", q);
@@ -306,7 +307,7 @@ void start()
 {
     // time stuff from http://www.cplusplus.com/forum/beginner/76147/
     clock_t startTime = clock();
-    double MAX_TIME = 10,
+    double MAX_TIME = 300,
            currentTime,
            gameTime,
            previousTime = MAX_TIME;

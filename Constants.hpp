@@ -12,6 +12,7 @@
 #include <string>
 //#include <mutex>
 
+
 // the directions enum
 enum Direction {RIGHT=1, DOWN=2, LEFT=3, UP=4, NONE=0};
 
