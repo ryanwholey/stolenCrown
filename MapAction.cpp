@@ -60,12 +60,18 @@ MapActionType MapAction::getType()
 {
     return type;
 }
+// sets the type of action
+void MapAction::setType(MapActionType _type)
+{
+    type = _type;
+}
 
 // gets the direction from the actoin
 Direction MapAction::getDirection()
 {
     return direction;
 }
+
 
 // sets whether or not the item is permament (dont delete on consumption)
 void MapAction::setIsPermanent(bool _isPerm)

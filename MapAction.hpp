@@ -49,6 +49,8 @@ class MapAction {
         char getKey();
         // sets whether or not the item is permament (dont delete on consumption)
         void setIsPermanent(bool);
+        // sets the type of the map action
+        void setType(MapActionType);
         // returns whether or not the item is permanent
         bool getIsPermanent();
         // gets the direction from the actoin

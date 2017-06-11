@@ -296,10 +296,24 @@ void handleWin(Room* room, queue<MapAction*>* q)
     room -> init("rooms/win.txt", q);
 }
 
+void handleLose(Room *room, queue<MapAction*>* q)
+{
+    room -> init("rooms/lose.txt", q);
+}
+
 // entry point for the game library. start the game with this method
 void start()
 {
+    // time stuff from http://www.cplusplus.com/forum/beginner/76147/
+    clock_t startTime = clock();
+    double MAX_TIME = 10,
+           currentTime,
+           gameTime,
+           previousTime = MAX_TIME;
+
+
     bool debug = false;
+    bool gameOver = false;
     queue <MapAction*> *q = new queue<MapAction*>();
 //    std::mutex *mtx = new std::mutex();
 //    mtx -> lock();
@@ -314,8 +328,13 @@ void start()
     if (!debug)
         clear();
 
+    printw("Time: ");
+    printw(std::to_string(int(MAX_TIME)).c_str());
+    printw("\n");
+
     printw(r -> getRawLayout().c_str());
     printw(player -> getInventoryString().c_str());
+
     if (!debug)
         printw(instructions().c_str());
 
@@ -323,10 +342,41 @@ void start()
     bool done = false;
     while(!done)
     {
+        if (!gameOver)
+            currentTime = (clock() - startTime) / CLOCKS_PER_SEC;
+        if (currentTime != previousTime)
+        {
+            clear();
+
+            previousTime = currentTime;
+            gameTime = MAX_TIME - currentTime;
+            if (gameTime <= 0 && !gameOver) {
+                gameOver = true;
+                q -> push(new MapAction(0,0,0,'\0', '\0', LOSE));
+                gameTime = 0;
+            } else if (gameTime < 0)
+            {
+                gameTime = 0;
+            }
+
+            printw("Time: ");
+            printw(std::to_string(static_cast<int>(gameTime)).c_str());
+            printw("\n");
+            printw(r -> getRawLayout().c_str());
+            printw(player -> getInventoryString().c_str());
+            if (showInstructions && !debug)
+            {
+                printw(instructions().c_str());
+            }
+            refresh();
+        }
+
+        // delay time and clear here
         while (!q -> empty())
         {
             if (!debug)
                 clear();
+
             MapAction *a = q -> front();
 
             switch (a -> getType())
@@ -335,7 +385,10 @@ void start()
                     done = true;
                     break;
                 case MOVE:
-                    handleItemMove(a, r, q);
+                    if (!gameOver)
+                    {
+                        handleItemMove(a, r, q);
+                    }
                     break;
                 case ADD:
                     handleAddItem(a, r, q);
@@ -350,7 +403,11 @@ void start()
                     handleChangeSpace(a, r);
                     break;
                 case WIN:
+                    gameOver = true;
                     handleWin(r, q);
+                    break;
+                case LOSE:
+                    handleLose(r, q);
                     break;
                 default:
                     break;
@@ -361,6 +418,10 @@ void start()
             {
                 delete a;
             }
+
+            printw("Time: ");
+            printw(std::to_string(static_cast<int>(gameTime)).c_str());
+            printw("\n");
 
             printw(r -> getRawLayout().c_str());
             printw(player -> getInventoryString().c_str());

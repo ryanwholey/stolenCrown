@@ -2,7 +2,9 @@
 XXXXXXXXXXXXXXXXXXXXXXXXX
 X                       X
 X   HINT F0R lATER...   X
-X     THE THIRD @       X
+X                       X
+X     THE THIRD   @     X
+X                       X
 X   FR0m THE lEFT 0N    X
 X    THE b0TT0m IS      X
 X      SPECIAl!!!       X
@@ -15,5 +17,5 @@ XXXXXXXXXXXX_XXXXXXXXXXXX
 ~RIGHT=rooms/016.txt
 
 
-~@16,3:CHANGE,DOOR,24,4
+~@18,4:CHANGE,DOOR,24,4
 

@@ -17,6 +17,7 @@
 #include <string>
 #include <curses.h>
 #include <fstream>
+#include <ctime>
 //#include <mutex>
 
 #include "Constants.hpp"

@@ -16,7 +16,7 @@
 enum Direction {RIGHT=1, DOWN=2, LEFT=3, UP=4, NONE=0};
 
 // all of the map action types
-enum MapActionType {QUIT=1, MOVE=2, ADD=3, KILL=4, CHANGE=5, INSTRUCTIONS=6, WIN=7, NOOP=8};
+enum MapActionType {QUIT=1, MOVE=2, ADD=3, KILL=4, CHANGE=5, INSTRUCTIONS=6, WIN=7, NOOP=8, LOSE=9};
 
 // all of the item types
 enum ItemType {
