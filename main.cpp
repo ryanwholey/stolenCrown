@@ -11,12 +11,12 @@
 #include "Game.hpp"
 #include "Menu.hpp"
 #include "Validator.hpp"
-#include <ncurses.h>
 
 using std::string;
 using std::cout;
 using std::endl;
 
+//print out the main objectives of the game
 void printObjectives();
 
 int main()
@@ -47,6 +47,7 @@ int main()
 }
 
 
+//print out the main objectives of the game
 void printObjectives()
 {
 
@@ -83,7 +84,5 @@ void printObjectives()
 
     }
     cout << "##################################################################################" << endl;
-
-
 }
 
