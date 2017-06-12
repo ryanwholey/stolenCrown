@@ -258,6 +258,10 @@ void Room::loadLayout(string filename)
 {
     fstream in;
     in.open(filename);
+    while (in.fail())
+    {
+        in.open(filename);
+    }
     string tmp, raw = "";
     bool isMap = false;
 
