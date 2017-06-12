@@ -1,0 +1,72 @@
+Move through the first room
+Note the locked door ahead and head right
+
+Pick up the key near the second pyramid tower peak
+Before you leave note the block "B" at the top of the room
+
+Head back to the left to and use the key youve got to remove the lock
+at the top of the room, then move through the door
+
+Congrats! You've located the laser gun! But it looks like you'll
+need another key to unlock this next lock so head back down.
+
+Head left, note the lock and key in this room but they're behind blocks.
+Head up and grab the key in the smiley's eye. Then head back down.
+
+Move to the right and then up, and pick up the laser gun! Try firing
+with the <f> key. Head down.
+
+Before heading to the left, instead head to the right back to the pyramid room.
+Remember the block at the top? Head up and fire a laser at it, then head
+through the newly unlocked room.
+
+There's a message written on the floor, hinting that the third @ from the left
+of an upcoming room is important! Thanks room!
+
+Head down then to the left and again to the left. Fire lasers at the two blocks
+to free the lock and key, unite them and move down.
+
+Note the hint and fire a laser off at the target '@'. It will open up a door
+on the left which you should head through.
+
+Next room you'll find a room full of targets. Remember what the hint said?
+Count three targets from the left on the bottom and fire a laser, a door will
+then open up at the top of the room
+
+The next room has a target guarded by a fence. A litle experimentation shows
+finds that you can fire lasers through it. Hit the target and continue up.
+
+This room is the first introduciton to angle reflectors. Fire a missle through
+the fence to hit the first angle reflector. The laser will take care of the
+rest. Head up after hitting the target.
+
+The next room has more angle reflectors in it. Fire off a laser to bounce off
+the three angles to finally land the hit on the target embedded in the wall. This
+will open up a hole in the wall to fire through. Fire off 2 lasers off the angle
+reflector through the hole in the wall, the first to remove the block, the
+second to hit the second target. This will open up a door on the right.
+
+This room is the first introduction to buttons *. A button will do something when
+you walk onto it (or walk off of it). Fire off a laser to the angle reflector
+on the bottom right. As th laser travels on its journey, as soon as it hits its
+thir angle, run down to the button and hop on. THis will drop another angle
+reflector in at a key position to send your traveling laser down into the target.
+Then head through the newly opened door on the right.
+
+This room is going to be tricky. Head up to the very top of the alleyway at the
+top of the room. Fire off a laser to the left and run as fast as you can to the
+button on the bottom right of the screen. This button will remove the X from your
+traveling lasers path, hitting the target so you can continue to the next room.
+
+This next room has a hint on the floor. Nothing special here.. head down.
+
+Now you're back in the hint room from the beginning of the game! However as a
+seasoned dungeion exporer you know that targets are the bread and butter
+of moving through rooms. Fire off a laser at the target in the room
+to open a secret door on the right.
+
+The last room! The crown is displayed in the middle. Pick it up and head through
+the door at the top of the room.
+
+Congrats! You've won!
+

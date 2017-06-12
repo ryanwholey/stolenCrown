@@ -35,6 +35,7 @@ int main()
         {
             case 1:
                 start();
+                system("cp rooms/* .rooms");
                 break;
             case 9:
                 done = true;
@@ -53,14 +54,14 @@ void printObjectives()
         "",
         "The Crown has been stolen!",
         "",
-        "Rumor has it that it's been moved deep into the dungeon of seg faults.",
-        "You find yourself at the entrance, ready for an adventure.",
+        "Rumor has it that it's been moved deep into the dungeon of the evil king,",
+        "Segmus Faultus. You find yourself at the entrance, ready for an adventure.",
         "Find keys 'K' to open locks 'L' and locate the fabled laser gun 'G'",
         "to aide you on your journey. With the laser by your side you",
         "should be able to navigate the rest of the dungeon chambers",
         "to find the lost crown! 'M'",
         "Use the vim nav keys to move (or u,i,o,8).",
-        "Good luck!",
+        "Good luck! (Checkout the walkthrough if you get stuck)",
         ""
     };
     int size = (sizeof(objectives)/sizeof(*objectives));
