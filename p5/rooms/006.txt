@@ -1,0 +1,17 @@
+<layout>
+XXXXXXXXXXXX_XXXXXXXXXXXX
+X                 XXXXXXX
+X                   XXXXX
+XXXXX                 XXX
+X K B                   X
+XXXXX                   _
+X                       X
+X         XXBXX         X
+X         X L X         X
+XXXXXXXXXXXX_XXXXXXXXXXXX
+</layout>
+~DOWN=rooms/008.txt
+~RIGHT=rooms/002.txt
+~UP=rooms/007.txt
+
+

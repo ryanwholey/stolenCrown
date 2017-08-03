@@ -1,0 +1,16 @@
+<layout>
+XXXXXXXXXXXX_XXXXXXXXXXXX
+X                       X
+X   WHEN IN DOUbT       X
+X                 XXXXXXX
+X                    @  X
+X                 XXXXXXX
+X                       X
+X DESTROY WITH lASERS!  X
+X                       X
+XXXXXXXXXXXXXXXXXXXXXXXXX
+</layout>
+~LEFT=rooms/009.txt
+~UP=rooms/006.txt
+~@21,4:CHANGE,DOOR,0,4
+
